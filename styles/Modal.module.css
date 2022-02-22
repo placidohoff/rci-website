@@ -1,0 +1,90 @@
+@media only screen and (max-width: 640px) {
+    .head{
+        display: flex;
+        flex-direction: row;
+        border: 1px solid black;
+        justify-content: space-between;
+    }
+    .headLeft{
+        flex-direction: column;
+        /* justify-content: flex-start; */
+        border: 1px solid black;
+        /* align-items: flex-start; */
+    }
+    .form{
+        /* max-width: 800px; */
+        /* width: 80%; */
+    }
+    .textarea{
+        width: 250px;
+        height: 200px;
+        resize: none;
+    }
+}
+@media only screen and (min-width: 640px) {
+    .modal{
+        /* padding: 10px; */
+        /* width: 500px; */
+    
+    }
+    
+    
+    .head{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        /* flex-direction: row; */
+    }
+
+    .headLeft{
+        flex-direction: row;
+    }
+    
+    .form{
+        max-width: 800px;
+        /* width: 80%; */
+    }
+    
+    .row{
+        display: flex;
+        justify-content: space-between;
+        /* grid-template-columns: 1fr 1fr 1fr; */
+    }
+    
+    .inputControl{
+        margin: 10px;
+    }
+    
+    .longIn{
+        width: 560px;
+        border: 1px solid black;
+    }
+    
+    .smallIn{
+        border: 1px solid black;
+    }
+    
+    .smallerIn{
+        border: 1px solid black;
+        width: 100px;
+    }
+    
+    .button{
+            background-color: #FFEB01;
+            color: #0070f3;
+            text-align: center;
+            /* width: 75%; */
+            padding: 20px 5px 20px 5px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: large;
+            font-weight: bold;
+            margin-left: auto;
+            margin-right: auto;
+    }
+    .textarea{
+        width: 600px;
+        height: 150px;
+        resize: none;
+    }
+}

@@ -1,0 +1,182 @@
+.nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    /* border: 1px solid black; */
+    /* height: 120px; */
+    background-color: #0083D6;
+    color: white;
+    font-size: 18px;
+    padding: 5px 100px 5px 100px;
+    
+}
+
+.left{
+    display: flex;
+    align-items: center;
+}
+
+.nav ul {
+    display: flex;
+    list-style: none;
+}
+
+
+
+.right{
+    display: flex;
+}
+
+.contactEstimateBox{
+    margin-left: -80px;
+    /* border: 1px solid black; */
+    text-align: left;
+}
+
+.phone{
+    margin-right: 10px;
+}
+
+.estimate{
+    background-color: #FFEB01;
+    color: #0088DD;
+    padding: 15px;
+    font-weight: bold;
+}
+
+/* .login{
+    margin-left: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} */
+
+.hamburger{
+    display: none;
+    cursor: pointer;
+}
+
+.image{
+    cursor: pointer;
+}
+@media only screen and (max-width: 700px) {
+    .nav{
+        padding: 10px;
+    }
+    .nav ul {
+        display: none;
+    }
+
+    .hamburger{
+        display: block;
+    }
+    .contactEstimateBox{
+        display: none;
+    }
+    .login {
+        display: none;
+        /* color: 'red'; */
+    }
+}
+@media only screen and (min-width: 700px){
+    .nav{
+        padding: 20px;
+    }
+    .nav ul{
+        display: none;
+    }
+    .contactEstimateBox{
+        display: none;
+    }
+    .login{
+        display: none;
+    }
+    .hamburger{
+        display: block;
+    }
+}
+
+@media only screen and (min-width: 820px){
+    .nav{
+        padding: 20px;
+    }
+    .nav ul {
+        display: flex;
+    }
+
+    .nav ul li{
+        margin-right: 15px;
+    }
+    .hamburger{
+        display: none;
+    }
+    .login{
+        display: block;
+    }
+    /* .contactEstimateBox{
+        display: block;
+    } */
+    .contactEstimateBox{
+        display: none;
+    }
+    .estimateLink{
+        background-color: #FFEB01;
+        padding: 5px;
+        color: #0088DD;
+        font-weight: bold;
+    }
+
+}
+
+@media only screen and (min-width: 1150px) {
+    /* .contactEstimateBox{
+        display: none;
+    } */
+    .phoneWrap{
+        display: block;
+    }
+    .contactEstimateBox{
+        /* margin-left: -80px; */
+        /* border: 1px solid black; */
+        margin-right: 150px;
+        display: block;
+        text-align: left;
+    }
+    
+    .estimate{
+        background-color: #FFEB01;
+        color: #0088DD;
+        padding: 10px;
+        font-weight: bold;
+        font-size: 14px;
+        
+    }
+
+    .estimateLink{
+        display: none;
+    }
+
+    .login{
+        margin-left: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .nav{
+        padding: 5px 50px 5px 50px;
+    }
+}
+
+
+
+@media only screen and (min-width: 1295px) {
+    .nav ul li {
+        margin: 0 30px 0 30px;
+    }
+
+    .nav{
+        max-width: 2100px;
+    }
+}
+

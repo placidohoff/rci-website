@@ -9,9 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.6.1",
+    "dotenv": "^16.0.0",
     "next": "12.1.0",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-icons": "^4.3.1",
+    "react-modal": "^3.14.4",
+    "react-responsive-carousel": "^3.2.22",
+    "react-select": "^5.2.2"
   },
   "devDependencies": {
     "eslint": "8.9.0",
