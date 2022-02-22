@@ -6,7 +6,6 @@ mail.setApiKey(process.env.SENDGRID_API_KEY)
 
 export default function handler(req, res) {
   const body = JSON.parse(req.body)
-  // console.log('TESSSSTTT ', body)
 
   const message = `
     Request for service from \r\n

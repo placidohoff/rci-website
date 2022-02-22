@@ -16,7 +16,7 @@ const styles = {
 
 
 
-export default ({ isOpen, closeModalFn, options, val }) => {
+export default function RequestModal ({ isOpen, closeModalFn, options, val }) {
 
     const handleOnSubmit = async (e) => {
         e.preventDefault()

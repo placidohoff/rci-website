@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { BsFillTelephoneFill } from 'react-icons/bs'
 import { GiHamburgerMenu } from 'react-icons/gi'
 
-export default () => {
+export default function Nav() {
     return (
         <>
 

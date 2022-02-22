@@ -8,7 +8,7 @@ import { Carousel } from 'react-responsive-carousel'
 import RequestModal from "../components/RequestModal"
 
 
-export default () => {
+export default function Services () {
     const [loadedService, setLoadedService] = useState(0)
     const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -18,7 +18,7 @@ export default () => {
             <div className={styles.showImages}>
                 {
                     SERVICES.map((service, index) => (
-                        <div className='grid-items'>
+                        <div className='grid-items' key={Math.random()}>
                             <div className={loadedService === index ? 'active' : 'regular'}>
                                 <Image src={service.image} alt={service.service} onClick={() => { setLoadedService(index); window.scrollTo({ top: 0, behavior: 'smooth' }) }} />
                             </div>
@@ -63,7 +63,7 @@ export default () => {
 
     const ShowCarousel = () => {
         return (
-            <div class="carousel-wrapper">
+            <div className="carousel-wrapper">
                 <Carousel infiniteLoop autoPlay>
                     <div>
                         <div className={styles.carouselImage}><Image  src={SERVICES[0].image} /></div>
@@ -123,7 +123,7 @@ export default () => {
         <div className={styles.services}>
             <Head>
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
                 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet" />
             </Head>
             <div className={styles.sideA}>
