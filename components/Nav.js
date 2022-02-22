@@ -1,5 +1,5 @@
 import navStyles from '../styles/Nav.module.css'
-import Link from 'next/Link'
+import Link from 'next/link'
 import logo from '../assets/rci-logo.png'
 import Image from 'next/image'
 import { BsFillTelephoneFill } from 'react-icons/bs'
