@@ -10,13 +10,19 @@ const styles = {
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
-        padding: '10px'
+        padding: '30px',
+        borderRadius: '30px',
+        border: '5px solid yellow',
+        // backgroundColor: '#FFEB01',
+        backgroundColor: '#C4C4C4',
+        fontWeight: 'bold'
+        // color: 'blue'
     },
 }
 
 
 
-export default function RequestModal ({ isOpen, closeModalFn, options, val }) {
+export default function RequestModal({ isOpen, closeModalFn, options, val }) {
 
     const handleOnSubmit = async (e) => {
         e.preventDefault()
@@ -59,7 +65,13 @@ export default function RequestModal ({ isOpen, closeModalFn, options, val }) {
                                 name='service'
                             />
                         </div>
-                        <button onClick={closeModalFn}>Close</button>
+                        <div style={{display:'flex', alignItems: 'center'}}>
+                            <button className={modalStyles.close} onClick={closeModalFn}>Exit</button>
+                        </div>
+                    </div>
+                    <div style={{ marginBottom: '20px', justifyContent: 'flex-start' }} className={modalStyles.row}>
+                        <div style={{ marginRight: '15px' }}>Requested Start-Date:</div>
+                        <input className={modalStyles.smallIn} type='date' />
                     </div>
 
 
@@ -83,9 +95,9 @@ export default function RequestModal ({ isOpen, closeModalFn, options, val }) {
                             <input type='text' name="phonenumber" className={modalStyles.smallIn} />
                         </div>
                     </div>
-                    <div className={modalStyles.row}>
+                    <div style={{ marginTop: '20px' }} className={modalStyles.row}>
                         <div className={modalStyles.inputControl}>
-                            <div>Address</div>
+                            <div>Address of Service Requested</div>
                             <input type='text' name="address" className={modalStyles.longIn} />
                         </div>
                     </div>
@@ -103,7 +115,7 @@ export default function RequestModal ({ isOpen, closeModalFn, options, val }) {
                             <input type='text' name="zip" className={modalStyles.smallerIn} />
                         </div>
                     </div>
-                    <div className={modalStyles.row}>
+                    <div className={modalStyles.detailsrow}>
                         <div className={modalStyles.inputControl}>
                             <div>Further Details</div>
                             <textarea name="details" className={modalStyles.textarea} />

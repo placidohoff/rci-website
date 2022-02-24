@@ -1,14 +1,43 @@
+.modal{
+    border-radius: 40px;
+    /* color: blue; */
+}
+
+.close{
+    padding: 10px;
+    margin-top: -70px;
+    border-radius: 15px;
+    font-weight: bold;
+    /* margin-right: -10px; */
+}
+
+.longIn{
+   border-radius: 10px;
+   height: 35px;
+}
+
+.smallIn{
+    border-radius: 10px;
+    height: 35px;
+}
+
+.smallerIn{
+    border-radius: 10px;
+    height: 35px;
+}
+
 @media only screen and (max-width: 640px) {
     .head{
         display: flex;
         flex-direction: row;
-        border: 1px solid black;
+        /* border: 1px solid black; */
         justify-content: space-between;
+        margin-bottom: 20px;
     }
     .headLeft{
         flex-direction: column;
         /* justify-content: flex-start; */
-        border: 1px solid black;
+        /* border: 1px solid black; */
         /* align-items: flex-start; */
     }
     .form{
@@ -20,6 +49,28 @@
         height: 200px;
         resize: none;
     }
+
+    .button{
+        background-color: #FFEB01;
+        color: #0070f3;
+        text-align: center;
+        /* width: 75%; */
+        padding: 20px 5px 20px 5px;
+        border-radius: 15px;
+        cursor: pointer;
+        font-size: large;
+        font-weight: bold;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 10px;
+        /* align-self: center; */
+}
+
+.detailsrow{
+    display: flex;
+    justify-content: space-between;
+
+}
 }
 @media only screen and (min-width: 640px) {
     .modal{
@@ -84,7 +135,16 @@
     }
     .textarea{
         width: 600px;
+        /* width: 100%; */
         height: 150px;
         resize: none;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .detailsrow{
+        display: flex;
+        justify-content: center;
+
     }
 }

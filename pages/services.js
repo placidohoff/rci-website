@@ -20,7 +20,7 @@ export default function Services () {
                     SERVICES.map((service, index) => (
                         <div className='grid-items' key={Math.random()}>
                             <div className={loadedService === index ? 'active' : 'regular'}>
-                                <Image src={service.image} alt={service.service} onClick={() => { setLoadedService(index); window.scrollTo({ top: 0, behavior: 'smooth' }) }} />
+                                <Image src={service.image} alt={service.service} onClick={() => { setLoadedService(index); /*window.scrollTo({ top: 0, behavior: 'smooth' })*/ }} />
                             </div>
                         </div>
                     ))
