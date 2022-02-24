@@ -15,7 +15,8 @@ const styles = {
         border: '5px solid yellow',
         // backgroundColor: '#FFEB01',
         backgroundColor: '#C4C4C4',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        height: '600px'
         // color: 'blue'
     },
 }
