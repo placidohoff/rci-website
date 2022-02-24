@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-rciwebsite-dev-100517-authRole",
+      "UnauthRoleArn": "arn:aws:iam::887160544235:role/amplify-rciwebsite-dev-100517-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::887160544235:role/amplify-rciwebsite-dev-100517-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-rciwebsite-dev-100517-deployment",
+      "UnauthRoleName": "amplify-rciwebsite-dev-100517-unauthRole",
+      "StackName": "amplify-rciwebsite-dev-100517",
+      "StackId": "arn:aws:cloudformation:us-east-1:887160544235:stack/amplify-rciwebsite-dev-100517/da9b2ec0-93f0-11ec-a0d7-0a6cdc947e29",
+      "AmplifyAppId": "dkqdcn2kya2s1"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "dkqdcn2kya2s1",
+          "type": "manual"
+        }
+      }
+    }
+  }
+}
