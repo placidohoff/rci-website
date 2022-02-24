@@ -41,7 +41,7 @@ export default function RequestModal({ isOpen, closeModalFn, options, val }) {
         })
     }
     return (
-        <div style={{ marginRight: '10px' }}>
+        <div style={{ marginRight: '10px'}}>
             <Modal
                 isOpen={isOpen}
                 onRequestClose={closeModalFn}
