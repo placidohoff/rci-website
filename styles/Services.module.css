@@ -4,6 +4,19 @@
     /* padding-top: 100px ; */
 }
 
+.header{
+    display: flex;
+    justify-content: center;
+}
+.header>p{
+    margin-top: -50px;
+    font-family: 'Roboto', 'Sans Serif';
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+
+/* BREAKPOINTS FOR THE HEIGHT */
 @media only screen and (max-height: 500px){
     .services{
         padding-top: 25vh;
@@ -32,8 +45,7 @@
 }
 
 
-
-
+/* BREAKPOINTS FOR THE WIDTH */
 @media only screen and (max-width: 500px) {
     .description{
         display: none;
@@ -104,6 +116,12 @@
     
 }
 @media only screen and (min-width: 820px) {
+    .header>p{
+        margin-top: -80px;
+        font-family: 'Roboto', 'Sans Serif';
+        font-size: xx-large;
+        font-weight: bold;
+    }
     .imageCarousel{
         display: none;
     }
@@ -152,6 +170,12 @@
     }
 }
 @media only screen and (min-width: 1200px) {
+    .header>p{
+        margin-top: -30px;
+        font-family: 'Roboto', 'Sans Serif';
+        font-size: xx-large;
+        font-weight: bold;
+    }
     .imageCarousel{
         display: none;
     }

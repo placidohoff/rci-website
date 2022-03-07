@@ -8,7 +8,7 @@ import { Carousel } from 'react-responsive-carousel'
 import RequestModal from "../components/RequestModal"
 
 
-export default function Services () {
+export default function Services() {
     const [loadedService, setLoadedService] = useState(0)
     const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -66,7 +66,7 @@ export default function Services () {
             <div className="carousel-wrapper">
                 <Carousel infiniteLoop autoPlay>
                     <div>
-                        <div className={styles.carouselImage}><Image  src={SERVICES[0].image} /></div>
+                        <div className={styles.carouselImage}><Image src={SERVICES[0].image} /></div>
                         <div className={styles.descriptionContainer}>
                             <p className={styles.title}>{SERVICES[0].service}</p>
                             <p className={styles.description}>{SERVICES[0].description}</p>
@@ -126,13 +126,18 @@ export default function Services () {
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
                 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet" />
             </Head>
-            <div className={styles.sideA}>
-                <div className={styles.imageList}><ShowImages /></div>
-                <div className={styles.imageCarousel}><ShowCarousel /></div>
-            </div>
-            <div className={styles.sideB}>
-                <ShowDescription />
-            </div>
+
+            
+                <div className={styles.sideA}>
+                    <div className={styles.header}><p>Services We Offer</p></div>
+                    <div className={styles.imageList}><ShowImages /></div>
+                    <div className={styles.imageCarousel}><ShowCarousel /></div>
+                </div>
+                <div className={styles.sideB}>
+                    <ShowDescription />
+                </div>
+
+
             <div>
                 <RequestModal
                     isOpen={isModalOpen}

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Modal from 'react-modal'
 import modalStyles from '../styles/Modal.module.css'
 import Select from 'react-select'
@@ -21,27 +22,73 @@ const styles = {
     },
 }
 
+const ErrorMessage = ({ input, checks, show, messages }) => {
+    // <ErrorMessage
+    //     input={firstName}
+    //     checks={{ 'minLength': 3, 'maxLength': 20, 'dataType': 'strings' }}
+    //     show={touched.firstName}
+    //     messages={['']}
+    // />
+}
+
 
 
 export default function RequestModal({ isOpen, closeModalFn, options, val }) {
+
+    const [errMessages, setErrMessages] = useState([false, false, false, false, false, false, false, false, false, false])
+    const [values, setValues] = useState([new Date(), { value: '', isErr: false, errMess: [], meta: 'First Name' }, '', '', '', '', '', '', '', ''])
+    const [touched, setTouched] = useState(
+        {
+            date: false,
+            firstName: false,
+            lastName: false,
+            email: false,
+            phone: false,
+            address: false,
+            city: false,
+            state: false,
+            zip: false
+        })
+     const [firstName, setFirstName] = useState('')
+     const [lastName, setLastName] = useState('')
+     const [email, setEmail] = useState('')
+     const [phone, setPhone] = useState('')
+     const [address, setAddress] = useState('')
+     const [city, setCity] = useState('')
+    //TODO: SEND THESE VALUES AS PROPS TO THE ERRORMESSAGE COMPONENT,
+        //WITHIN THE COMPONENT, CHECK WHICH VALUE IS PASSED, AND RUN THE APPROPRIATE CHECKS
+        //IN THE COMPONENT, IF FAILS CHECK, DISPATCH SET ERROR TO CHANGE STATE OF ERROR
+        //IF STATE ERROR IS TRUE, CANNOT SEND INFO TO THE BACKEND
 
     const handleOnSubmit = async (e) => {
         e.preventDefault()
         // console.log('TESSSSST', e.currentTarget.elements)
         // alert('test')
         const formData = {}
+        let isFormValid = true
         Array.from(e.currentTarget.elements).forEach(field => {
             if (!field.name) return
+            if (field.value.trim() === '') {
+                // console.log('empty')
+                if (field.name)
+                    isFormValid = false
+            } else {
+
+            }
             formData[field.name] = field.value
         })
 
-        await fetch('/api/request', {
-            method: 'POST',
-            body: JSON.stringify(formData)
-        })
+        if (isFormValid) {
+            console.log('valid')
+        }
+
+        // await fetch('/api/request', {
+        //     method: 'POST',
+        //     body: JSON.stringify(formData)
+        // })
     }
     return (
-        <div style={{ marginRight: '10px'}}>
+        <div style={{ marginRight: '10px' }}>
             <Modal
                 isOpen={isOpen}
                 onRequestClose={closeModalFn}
@@ -66,30 +113,53 @@ export default function RequestModal({ isOpen, closeModalFn, options, val }) {
                                 name='service'
                             />
                         </div>
-                        <div style={{display:'flex', alignItems: 'center'}}>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
                             <button className={modalStyles.close} onClick={closeModalFn}>Exit</button>
                         </div>
                     </div>
                     <div style={{ marginBottom: '20px', justifyContent: 'flex-start' }} className={modalStyles.row}>
                         <div style={{ marginRight: '15px' }}>Requested Start-Date:</div>
-                        <input className={modalStyles.smallIn} type='date' />
+                        <input name='date' className={modalStyles.smallIn} type='date' />
+                        <ErrorMessage
+                            input={firstName}
+                            checks={{ 'minLength': 3, 'maxLength': 20, 'dataType': 'strings' }}
+                            show={touched.firstName}
+                            messages={['']}
+                        />
                     </div>
 
 
                     <div className={modalStyles.row}>
                         <div className={modalStyles.inputControl}>
                             <div>First Name</div>
-                            <input type='text' name="firstname" className={modalStyles.smallIn} />
+                            <input type='text' onClick={() => setTouched()} name="firstname" className={modalStyles.smallIn} />
+                            {
+                                <ErrorMessage
+                                    input={firstName}
+                                    checks={{ 'minLength': 3, 'maxLength': 20, 'dataType': 'strings' }}
+                                    show={touched.firstName}
+                                    messages={['']}
+                                />
+                            }
+                            {
+                                errMessages[1] === true && <p className={modalStyles.error}>Cannot be empty</p>
+                            }
                         </div>
                         <div className={modalStyles.inputControl}>
                             <div>Last Name</div>
                             <input type='text' name="lastname" className={modalStyles.smallIn} />
+                            {
+                                errMessages[2] === true && <p className={modalStyles.error}>Cannot be empty</p>
+                            }
                         </div>
                     </div>
                     <div className={modalStyles.row}>
                         <div className={modalStyles.inputControl}>
                             <div>Email</div>
                             <input type='text' name="email" className={modalStyles.smallIn} />
+                            {
+                                errMessages[1] === true && <p className={modalStyles.error}>Cannot be empty</p>
+                            }
                         </div>
                         <div className={modalStyles.inputControl}>
                             <div>Phone Number</div>
@@ -98,7 +168,7 @@ export default function RequestModal({ isOpen, closeModalFn, options, val }) {
                     </div>
                     <div style={{ marginTop: '20px' }} className={modalStyles.row}>
                         <div className={modalStyles.inputControl}>
-                            <div>Address of Service Requested</div>
+                            <div>Service Address</div>
                             <input type='text' name="address" className={modalStyles.longIn} />
                         </div>
                     </div>
