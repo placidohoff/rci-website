@@ -185,6 +185,9 @@
         font-size: xx-large;
         font-weight: bold;
     }
+    .sideB{
+        margin-top: 38px;
+    }
     .imageCarousel{
         display: none;
     }

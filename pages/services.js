@@ -7,19 +7,16 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel'
 import RequestModal from "../components/RequestModal"
 
-
+let timer
 export default function Services() {
-    let timer
+    
     useEffect(() => {
         if (isMovingHighlight) {
-             timer = setInterval(() => {
-                // setLoadedService(loadedService++)
-                // alert('hello')
-
+            timer = setInterval(() => {
                 handleHighlights()
             }, 2500)
         }
-        else{
+        else {
             clearInterval(timer)
             return
         }
@@ -30,21 +27,22 @@ export default function Services() {
     const [isMovingHighlight, setIsMovingHighlight] = useState(true)
 
     const handleImageClick = (num) => {
-        setLoadedService(num); 
-        setIsMovingHighlight(false); 
         clearInterval(timer)
+        setLoadedService(num);
+        setIsMovingHighlight(false);
+        
     }
 
     const handleHighlights = () => {
-        if (loadedService <= 5) {
-            setLoadedService(loadedService++)
+        if (isMovingHighlight) {
+            if (loadedService < 5) {
+                setLoadedService(loadedService+=1)
 
-            
-        } else if (loadedService === 6) {
-            setLoadedService(0)
-            setIsMovingHighlight(false)
+
+            } else  {
+                setLoadedService(0)
+            }
         }
-        console.log(loadedService)
     }
 
     const ShowImages = () => {
@@ -55,7 +53,7 @@ export default function Services() {
                     SERVICES.map((service, index) => (
                         <div className='grid-items' key={Math.random()}>
                             <div className={loadedService === index ? 'active' : 'regular'}>
-                                <Image src={service.image} alt={service.service} onClick={() => handleImageClick(index) } />
+                                <Image src={service.image} alt={service.service} onClick={() => handleImageClick(index)} />
                             </div>
                         </div>
                     ))
