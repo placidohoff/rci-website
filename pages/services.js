@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { SERVICES, OPTIONS } from "../data/SERVICES"
 import styles from '../styles/Services.module.css'
 import Image from "next/image"
@@ -9,8 +9,43 @@ import RequestModal from "../components/RequestModal"
 
 
 export default function Services() {
+    let timer
+    useEffect(() => {
+        if (isMovingHighlight) {
+             timer = setInterval(() => {
+                // setLoadedService(loadedService++)
+                // alert('hello')
+
+                handleHighlights()
+            }, 2500)
+        }
+        else{
+            clearInterval(timer)
+            return
+        }
+
+    }, [])
     const [loadedService, setLoadedService] = useState(0)
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isMovingHighlight, setIsMovingHighlight] = useState(true)
+
+    const handleImageClick = (num) => {
+        setLoadedService(num); 
+        setIsMovingHighlight(false); 
+        clearInterval(timer)
+    }
+
+    const handleHighlights = () => {
+        if (loadedService <= 5) {
+            setLoadedService(loadedService++)
+
+            
+        } else if (loadedService === 6) {
+            setLoadedService(0)
+            setIsMovingHighlight(false)
+        }
+        console.log(loadedService)
+    }
 
     const ShowImages = () => {
 
@@ -20,7 +55,7 @@ export default function Services() {
                     SERVICES.map((service, index) => (
                         <div className='grid-items' key={Math.random()}>
                             <div className={loadedService === index ? 'active' : 'regular'}>
-                                <Image src={service.image} alt={service.service} onClick={() => { setLoadedService(index); /*window.scrollTo({ top: 0, behavior: 'smooth' })*/ }} />
+                                <Image src={service.image} alt={service.service} onClick={() => handleImageClick(index) } />
                             </div>
                         </div>
                     ))
@@ -127,15 +162,15 @@ export default function Services() {
                 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet" />
             </Head>
 
-            
-                <div className={styles.sideA}>
-                    <div className={styles.header}><p>Services We Offer</p></div>
-                    <div className={styles.imageList}><ShowImages /></div>
-                    <div className={styles.imageCarousel}><ShowCarousel /></div>
-                </div>
-                <div className={styles.sideB}>
-                    <ShowDescription />
-                </div>
+
+            <div className={styles.sideA}>
+                <div className={styles.header}><p>Services We Offer</p></div>
+                <div className={styles.imageList}><ShowImages /></div>
+                <div className={styles.imageCarousel}><ShowCarousel /></div>
+            </div>
+            <div className={styles.sideB}>
+                <ShowDescription />
+            </div>
 
 
             <div>
