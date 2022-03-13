@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Modal from 'react-modal'
 import modalStyles from '../styles/Modal.module.css'
 import Select from 'react-select'
+import ErrorMessage from './ErrorMessage'
 
 const styles = {
     content: {
@@ -22,20 +23,22 @@ const styles = {
     },
 }
 
-const ErrorMessage = ({ input, checks, show, messages }) => {
-    // <ErrorMessage
-    //     input={firstName}
-    //     checks={{ 'minLength': 3, 'maxLength': 20, 'dataType': 'strings' }}
-    //     show={touched.firstName}
-    //     messages={['']}
-    // />
-}
 
 
 
 export default function RequestModal({ isOpen, closeModalFn, options, val }) {
 
-    const [errMessages, setErrMessages] = useState([false, false, false, false, false, false, false, false, false, false])
+    const [isError, setIsError] = useState(true)
+    const [formErrors, setFormErrors] = useState({
+        isFirstNameError: true,
+        isLastNameError: true,
+        isEmailError: true,
+        isPhoneNumberError: true,
+        isServiceAddressError: true,
+        isCityError: true,
+        isStateError: true,
+        isZipError: true
+    })
     const [values, setValues] = useState([new Date(), { value: '', isErr: false, errMess: [], meta: 'First Name' }, '', '', '', '', '', '', '', ''])
     const [touched, setTouched] = useState(
         {
@@ -49,44 +52,62 @@ export default function RequestModal({ isOpen, closeModalFn, options, val }) {
             state: false,
             zip: false
         })
-     const [firstName, setFirstName] = useState('')
-     const [lastName, setLastName] = useState('')
-     const [email, setEmail] = useState('')
-     const [phone, setPhone] = useState('')
-     const [address, setAddress] = useState('')
-     const [city, setCity] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [phone, setPhone] = useState('')
+    const [address, setAddress] = useState('')
+    const [city, setCity] = useState('')
     //TODO: SEND THESE VALUES AS PROPS TO THE ERRORMESSAGE COMPONENT,
-        //WITHIN THE COMPONENT, CHECK WHICH VALUE IS PASSED, AND RUN THE APPROPRIATE CHECKS
-        //IN THE COMPONENT, IF FAILS CHECK, DISPATCH SET ERROR TO CHANGE STATE OF ERROR
-        //IF STATE ERROR IS TRUE, CANNOT SEND INFO TO THE BACKEND
+    //WITHIN THE COMPONENT, CHECK WHICH VALUE IS PASSED, AND RUN THE APPROPRIATE CHECKS
+    //IN THE COMPONENT, IF FAILS CHECK, DISPATCH SET ERROR TO CHANGE STATE OF ERROR
+    //IF STATE ERROR IS TRUE, CANNOT SEND INFO TO THE BACKEND
 
     const handleOnSubmit = async (e) => {
         e.preventDefault()
-        // console.log('TESSSSST', e.currentTarget.elements)
-        // alert('test')
+
         const formData = {}
         let isFormValid = true
-        Array.from(e.currentTarget.elements).forEach(field => {
-            if (!field.name) return
-            if (field.value.trim() === '') {
-                // console.log('empty')
-                if (field.name)
-                    isFormValid = false
-            } else {
+
+        Object.values(formErrors).forEach(check => {
+            if (check === true) {
+                isFormValid = false
 
             }
-            formData[field.name] = field.value
+
         })
 
         if (isFormValid) {
-            console.log('valid')
+            Array.from(e.currentTarget.elements).forEach(field => {
+                if (!field.name) return
+
+                formData[field.name] = field.value
+            })
+            alert('Form is valid')
+        } else {
+            alert('Form is invalid')
         }
+
+        console.log(formErrors)
+
+
 
         // await fetch('/api/request', {
         //     method: 'POST',
         //     body: JSON.stringify(formData)
         // })
     }
+
+    //I HAVE TWO HANDLERS CAUSE I CAN'T SEEM TO PASS THE BOOL WITH IT, ONLY THE NAME.. SO THE BOOL IS THE FUNCTION ITSELF:
+    const handleError = (errorName, bool) => {
+        // setFormErrors({ ...formErrors, [errorName]: true })
+        setFormErrors({...formErrors, [errorName]:true})
+    }
+
+    const handleValid = (errorName, bool) => {
+        setFormErrors({...formErrors, [errorName]:false})
+    }
+
     return (
         <div style={{ marginRight: '10px' }}>
             <Modal
@@ -120,46 +141,46 @@ export default function RequestModal({ isOpen, closeModalFn, options, val }) {
                     <div style={{ marginBottom: '20px', justifyContent: 'flex-start' }} className={modalStyles.row}>
                         <div style={{ marginRight: '15px' }}>Requested Start-Date:</div>
                         <input name='date' className={modalStyles.smallIn} type='date' />
-                        <ErrorMessage
+                        {/* <ErrorMessage
                             input={firstName}
                             checks={{ 'minLength': 3, 'maxLength': 20, 'dataType': 'strings' }}
                             show={touched.firstName}
                             messages={['']}
-                        />
+                        /> */}
                     </div>
 
 
                     <div className={modalStyles.row}>
                         <div className={modalStyles.inputControl}>
                             <div>First Name</div>
-                            <input type='text' onClick={() => setTouched()} name="firstname" className={modalStyles.smallIn} />
+                            <input type='text'
+                                onClick={() => setTouched({ ...touched, firstName: true })}
+                                onChange={(e) => setFirstName(e.target.value)}
+                                name="firstname"
+                                className={modalStyles.smallIn}
+                                value={firstName}
+                            />
                             {
                                 <ErrorMessage
                                     input={firstName}
-                                    checks={{ 'minLength': 3, 'maxLength': 20, 'dataType': 'strings' }}
+                                    checks={{ minLength: 3, maxLength: 20, dataType: 'string', noSpaces: true }}
                                     show={touched.firstName}
-                                    messages={['']}
+                                    sendError={() => handleError('isFirstNameError')}
+                                    sendValid={() => handleValid('isFirstNameError')}
+                                    name="isFirstNameError"
                                 />
                             }
-                            {
-                                errMessages[1] === true && <p className={modalStyles.error}>Cannot be empty</p>
-                            }
+
                         </div>
                         <div className={modalStyles.inputControl}>
                             <div>Last Name</div>
                             <input type='text' name="lastname" className={modalStyles.smallIn} />
-                            {
-                                errMessages[2] === true && <p className={modalStyles.error}>Cannot be empty</p>
-                            }
                         </div>
                     </div>
                     <div className={modalStyles.row}>
                         <div className={modalStyles.inputControl}>
                             <div>Email</div>
                             <input type='text' name="email" className={modalStyles.smallIn} />
-                            {
-                                errMessages[1] === true && <p className={modalStyles.error}>Cannot be empty</p>
-                            }
                         </div>
                         <div className={modalStyles.inputControl}>
                             <div>Phone Number</div>
