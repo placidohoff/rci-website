@@ -156,6 +156,10 @@ export default function RequestModal({ isOpen, closeModalFn, options, val }) {
             isAllValid = false
         }
 
+        if(!(/^\d{5}$|^\d{5}-\d{4}$/.test(zip))){
+            isAllValid = false
+        }
+
         return isAllValid
     }
 
