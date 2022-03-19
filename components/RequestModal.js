@@ -3,6 +3,8 @@ import Modal from 'react-modal'
 import modalStyles from '../styles/Modal.module.css'
 import Select from 'react-select'
 import ErrorMessage from './ErrorMessage'
+import emailjs from 'emailjs-com'
+// import fetch from 'node-fetch'
 
 const styles = {
     content: {
@@ -69,7 +71,7 @@ export default function RequestModal({ isOpen, closeModalFn, options, val }) {
     const handleOnSubmit = async (e) => {
         e.preventDefault()
 
-        const formData = {}
+        // const formData = {}
         let isFormValid = true
 
         //TODO: Will check all form inputs, passing each to checkFormErrors(). Only if all pass the checks will the form be considered valid
@@ -89,13 +91,44 @@ export default function RequestModal({ isOpen, closeModalFn, options, val }) {
         // alert(isAllValid)
         // console.log(requestedServices)
 
-        if(isAllValid){
-            alert('Form is valid')
-        }else{
+        if (isAllValid) {
+            // alert('Form is valid')
+            const formData = getFormData()
+            // await fetch('/api/request/', {
+            //     method: 'POST',
+            //     body: JSON.stringify(formData)
+            // }).then(response => {
+            //     console.log(response)
+            // })
+
+
+            const message = `
+    Request for service from \r\n
+    Name: ${firstName} ${lastName} \r\n
+    Email: ${email} \r\n
+    Phone Number: ${phone} \r\n
+    Address: ${address}, ${city}, ${_state}, ${zip} \r\n
+    Type of Work: ${requestedServices[requestedServices.length - 1].value} \r\n
+    More Details: ${details}
+  `
+            const templateParams = {
+                from_name: 'Test Sender',
+                to_name: 'Test Reciever',
+                message: message,
+                reply_to: 'placido.hoff@gmail.com'
+            }
+            await emailjs.send('service_9vhzdop', 'template_9q736er', templateParams, 'FIkUrwvtra0xs9deO')
+                .then(result => {
+                    // res.send('Email Success')
+                    console.log('email successfully sent')
+                })
+                .catch(err => console.error('ERROR ', err))
+
+        } else {
             alert('Please clear the form of all errors')
         }
 
-        console.log(formErrors)
+        // console.log(formErrors)
 
 
 
@@ -103,6 +136,22 @@ export default function RequestModal({ isOpen, closeModalFn, options, val }) {
         //     method: 'POST',
         //     body: JSON.stringify(formData)
         // })
+    }
+
+    const getFormData = () => {
+        return {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            phone: phone,
+            address: address,
+            city: city,
+            state: _state,
+            zip: zip,
+            details: details,
+            service: requestedServices[requestedServices.length - 1]
+
+        }
     }
 
     //I HAVE TWO HANDLERS CAUSE I CAN'T SEEM TO PASS THE BOOL WITH IT, ONLY THE NAME.. SO THE BOOL IS THE FUNCTION ITSELF:
@@ -119,9 +168,9 @@ export default function RequestModal({ isOpen, closeModalFn, options, val }) {
     const checkFormErrors = () => {
         let isAllValid = true
         //TODO: Go thru all form state values and run checks on them. If any fail, set isAllValid to false. At the end return isAllValid
-        
+
         //SERVICES:
-        if(requestedServices[requestedServices.length-1].length == 0){
+        if (requestedServices[requestedServices.length - 1].length == 0) {
             isAllValid = false
         }
 
@@ -156,7 +205,7 @@ export default function RequestModal({ isOpen, closeModalFn, options, val }) {
             isAllValid = false
         }
 
-        if(!(/^\d{5}$|^\d{5}-\d{4}$/.test(zip))){
+        if (!(/^\d{5}$|^\d{5}-\d{4}$/.test(zip))) {
             isAllValid = false
         }
 
@@ -180,7 +229,7 @@ export default function RequestModal({ isOpen, closeModalFn, options, val }) {
                     <div className={modalStyles.head}>
                         <div className={modalStyles.headLeft} style={{ display: 'flex', alignItems: 'center', marginRight: '10px' }}>
                             <h2 style={{ marginRight: '10px' }}>Requested Service(s):</h2>
-                            <div style={{display: 'flex', flexDirection:'column'}}>
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
                                 <Select
                                     defaultValue={options[val]}
                                     className='basic-multi-select'
