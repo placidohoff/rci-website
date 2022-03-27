@@ -4,6 +4,8 @@ import modalStyles from '../styles/Modal.module.css'
 import Select from 'react-select'
 import ErrorMessage from './ErrorMessage'
 import emailjs from 'emailjs-com'
+import { SERVICE_ID, TEMPLATE_ID, USER_ID } from '../var'
+// require('dotenv').config()
 // import fetch from 'node-fetch'
 
 const styles = {
@@ -56,6 +58,7 @@ export default function RequestModal({ isOpen, closeModalFn, options, val }) {
             state: false,
             zip: false
         })
+
     const [requestedServices, setRequestedServices] = useState([options[val]])
     const [date, setDate] = useState(new Date().toDateString())
     const [firstName, setFirstName] = useState('')
@@ -67,33 +70,18 @@ export default function RequestModal({ isOpen, closeModalFn, options, val }) {
     const [_state, set_State] = useState('')
     const [zip, setZip] = useState('')
     const [details, setDetails] = useState('')
+    const [showForm, setShowForm] = useState(true)
 
     const handleOnSubmit = async (e) => {
         e.preventDefault()
 
-        // const formData = {}
         let isFormValid = true
 
-        //TODO: Will check all form inputs, passing each to checkFormErrors(). Only if all pass the checks will the form be considered valid
-
-        // if (isFormValid) {
-        //     Array.from(e.currentTarget.elements).forEach(field => {
-        //         if (!field.name) return
-
-        //         formData[field.name] = field.value
-        //     })
-        //     alert('Form is valid')
-        // } else {
-        //     alert('Form is invalid')
-        // }
 
         let isAllValid = checkFormErrors()
-        // alert(isAllValid)
-        // console.log(requestedServices)
 
         if (isAllValid) {
-            // alert('Form is valid')
-            const formData = getFormData()
+            // const formData = getFormData()
             // await fetch('/api/request/', {
             //     method: 'POST',
             //     body: JSON.stringify(formData)
@@ -111,47 +99,76 @@ export default function RequestModal({ isOpen, closeModalFn, options, val }) {
     Type of Work: ${requestedServices[requestedServices.length - 1].value} \r\n
     More Details: ${details}
   `
+            //FORMAT WHAT NEEDS IT:
+            // if (details.trim().length === 0)
+            //     setDetails('[ CUSTOMER DID NOT LEAVE EXTRA DETAILS ]')
+
+
+            let services = requestedServices.length > 1 ? stringifyAllServices() : requestedServices[0].label
             const templateParams = {
-                from_name: 'Test Sender',
-                to_name: 'Test Reciever',
-                message: message,
-                reply_to: 'placido.hoff@gmail.com'
+                service: services,
+                address: address,
+                city: city,
+                state: _state,
+                zip: zip,
+                date: date,
+                details: details.trim() === '' ? '[ CUSTOMER DID NOT LEAVE EXTRA DETAILS ]' : details ,
+                firstname: firstName,
+                lastname: lastName,
+                phone: phone.replace(/(\d{3})(\d{3})(\d{4})/,
+                    '$1-$2-$3'),
+                email: email
+
             }
-            await emailjs.send('service_9vhzdop', 'template_9q736er', templateParams, 'FIkUrwvtra0xs9deO')
+
+            await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, USER_ID)
                 .then(result => {
-                    // res.send('Email Success')
+
                     console.log('email successfully sent')
                 })
                 .catch(err => console.error('ERROR ', err))
 
+
+            setShowForm(false)
+
         } else {
-            alert('Please clear the form of all errors')
+            alert('Please fill out the form correctly and entirely')
+
+
         }
 
-        // console.log(formErrors)
-
-
-
-        // await fetch('/api/request', {
-        //     method: 'POST',
-        //     body: JSON.stringify(formData)
-        // })
     }
 
-    const getFormData = () => {
-        return {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            phone: phone,
-            address: address,
-            city: city,
-            state: _state,
-            zip: zip,
-            details: details,
-            service: requestedServices[requestedServices.length - 1]
+    const stringifyAllServices = () => {
+        let requests = '';
 
-        }
+        requestedServices[requestedServices.length - 1].forEach((service, index) => {
+            if (index === requestedServices.length - 1)
+                requests += ' & ' + service.label
+            else if (index === 0)
+                requests += `${service.label}`
+            else
+                requests += ', ' + service.label
+        })
+
+        return requests
+    }
+
+    const resetForm = (e) => {
+
+        e.preventDefault()
+        setDate(new Date().toDateString())
+        setTouched({ ...touched, date: false })
+
+        setFirstName('')
+        setLastName('')
+        setEmail('')
+        setPhone('')
+        setAddress('')
+        setCity('')
+        set_State('')
+        setZip('')
+        setDetails('')
     }
 
     //I HAVE TWO HANDLERS CAUSE I CAN'T SEEM TO PASS THE BOOL WITH IT, ONLY THE NAME.. SO THE BOOL IS THE FUNCTION ITSELF:
@@ -172,41 +189,51 @@ export default function RequestModal({ isOpen, closeModalFn, options, val }) {
         //SERVICES:
         if (requestedServices[requestedServices.length - 1].length == 0) {
             isAllValid = false
+            setTouched({ ...touched, services: true })
         }
 
         //DATE:
         if (new Date(date) < new Date()) {
             isAllValid = false
+            setTouched({ ...touched, date: true })
         }
         //FIRSTNAME:
         if (/\d/.test(firstName) || firstName.length < 2 || firstName.length > 20 || firstName.includes(' ')) {
             isAllValid = false
+            setTouched({ ...touched, firstName: true })
         }
         //LASTNAME:
         if (/\d/.test(lastName) || lastName.length < 2 || lastName.length > 20 || lastName.includes(' ')) {
             isAllValid = false
+            setTouched({ ...touched, lastName: true })
         }
         //EMAIL:
         if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))) {
             isAllValid = false
+            setTouched({ ...touched, email: true })
         }
         //PHONE:
         if (!(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(phone))) {
             isAllValid = false
+            setTouched({ ...touched, phone: true })
         }
         //ADDRESS:
         if (!(/^\d+\s[A-z]+\s[A-z]+/.test(address))) {
             isAllValid = false
+            setTouched({ ...touched, address: true })
         }
         if (/\d/.test(city) || city.length < 2 || city.length > 20) {
             isAllValid = false
+            setTouched({ ...touched, city: true })
         }
         if (/\d/.test(_state) || _state.length < 2 || _state.length > 20) {
             isAllValid = false
+            setTouched({ ...touched, state: true })
         }
 
         if (!(/^\d{5}$|^\d{5}-\d{4}$/.test(zip))) {
             isAllValid = false
+            setTouched({ ...touched, zip: true })
         }
 
         return isAllValid
@@ -221,246 +248,278 @@ export default function RequestModal({ isOpen, closeModalFn, options, val }) {
                 style={styles}
                 className={styles.modal}
             >
-                <form
-                    method='post'
-                    onSubmit={handleOnSubmit}
-                    className={modalStyles.form}
-                >
-                    <div className={modalStyles.head}>
-                        <div className={modalStyles.headLeft} style={{ display: 'flex', alignItems: 'center', marginRight: '10px' }}>
-                            <h2 style={{ marginRight: '10px' }}>Requested Service(s):</h2>
+                {
+                    showForm &&
+                    <form
+                        method='post'
+                        onSubmit={handleOnSubmit}
+                        className={modalStyles.form}
+                    >
+                        <div className={modalStyles.head}>
+                            <div className={modalStyles.headLeft} style={{ display: 'flex', alignItems: 'center', marginRight: '10px' }}>
+                                <h2 style={{ marginRight: '10px' }}>Requested Service(s):</h2>
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <Select
+                                        defaultValue={options[val]}
+                                        className='basic-multi-select'
+                                        options={options}
+                                        onClick={() => setTouched({ ...touched, services: true })}
+                                        // value={requestedServices}
+                                        isMulti
+                                        name='service'
+                                        onChange={(e) => { setRequestedServices([...requestedServices, e]); setTouched({ ...touched, services: true }) }}
+                                    />
+                                    <ErrorMessage
+                                        input={requestedServices[requestedServices.length - 1]}
+                                        // input={requestedServices}
+                                        checks={{ dataType: 'services' }}
+                                        show={touched.services}
+                                        // show={true}
+                                        sendError={() => handleError('isDateError')}
+                                        sendValid={() => handleValid('isDateError')}
+                                    />
+                                </div>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                                <button className={modalStyles.close} onClick={closeModalFn}>Exit</button>
+                                <button className={modalStyles.smallbn}
+                                    onClick={resetForm}
+                                >
+                                    Clear All
+                                </button>
+                            </div>
+                        </div>
+                        <div style={{ marginBottom: '20px', justifyContent: 'flex-start' }} className={modalStyles.row}>
+                            <div style={{ marginRight: '15px' }}>Requested Start-Date:</div>
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                <Select
-                                    defaultValue={options[val]}
-                                    className='basic-multi-select'
-                                    options={options}
-                                    onClick={() => setTouched({ ...touched, services: true })}
-                                    // value={requestedServices}
-                                    isMulti
-                                    name='service'
-                                    onChange={(e) => { setRequestedServices([...requestedServices, e]); setTouched({ ...touched, services: true }) }}
+                                <input
+                                    name='date'
+                                    value={date}
+                                    onClick={() => setTouched({ ...touched, date: true })}
+                                    onChange={(e) => setDate(e.target.value)}
+                                    className={modalStyles.smallIn}
+                                    type='date'
+                                    min={new Date()}
                                 />
                                 <ErrorMessage
-                                    input={requestedServices[requestedServices.length - 1]}
-                                    // input={requestedServices}
-                                    checks={{ dataType: 'services' }}
-                                    show={touched.services}
-                                    // show={true}
+                                    input={date}
+                                    checks={{ dataType: 'date' }}
+                                    show={touched.date}
                                     sendError={() => handleError('isDateError')}
                                     sendValid={() => handleValid('isDateError')}
                                 />
                             </div>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <button className={modalStyles.close} onClick={closeModalFn}>Exit</button>
-                        </div>
-                    </div>
-                    <div style={{ marginBottom: '20px', justifyContent: 'flex-start' }} className={modalStyles.row}>
-                        <div style={{ marginRight: '15px' }}>Requested Start-Date:</div>
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <input
-                                name='date'
-                                value={date}
-                                onClick={() => setTouched({ ...touched, date: true })}
-                                onChange={(e) => setDate(e.target.value)}
-                                className={modalStyles.smallIn}
-                                type='date'
-                                min={new Date()}
-                            />
-                            <ErrorMessage
-                                input={date}
-                                checks={{ dataType: 'date' }}
-                                show={touched.date}
-                                sendError={() => handleError('isDateError')}
-                                sendValid={() => handleValid('isDateError')}
-                            />
-                        </div>
-                    </div>
 
 
-                    <div className={modalStyles.row}>
-                        <div className={modalStyles.inputControl}>
-                            <div>First Name</div>
-                            <input type='text'
-                                onClick={() => setTouched({ ...touched, firstName: true })}
-                                onChange={(e) => setFirstName(e.target.value)}
-                                name="firstname"
-                                className={modalStyles.smallIn}
-                                value={firstName}
-                            />
-                            {
-                                <ErrorMessage
-                                    input={firstName}
-                                    checks={{ minLength: 1, maxLength: 20, dataType: 'string', noSpaces: true }}
-                                    show={touched.firstName}
-                                    sendError={() => handleError('isFirstNameError')}
-                                    sendValid={() => handleValid('isFirstNameError')}
+                        <div className={modalStyles.row}>
+                            <div className={modalStyles.inputControl}>
+                                <div>First Name</div>
+                                <input type='text'
+                                    onClick={() => setTouched({ ...touched, firstName: true })}
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                    name="firstname"
+                                    className={modalStyles.smallIn}
+                                    value={firstName}
                                 />
-                            }
+                                {
+                                    <ErrorMessage
+                                        input={firstName}
+                                        checks={{ minLength: 1, maxLength: 20, dataType: 'string', noSpaces: true }}
+                                        show={touched.firstName}
+                                        sendError={() => handleError('isFirstNameError')}
+                                        sendValid={() => handleValid('isFirstNameError')}
+                                    />
+                                }
 
-                        </div>
-                        <div className={modalStyles.inputControl}>
-                            <div>Last Name</div>
-                            <input
-                                type='text'
-                                name="lastname"
-                                className={modalStyles.smallIn}
-                                onClick={() => setTouched({ ...touched, lastName: true })}
-                                onChange={(e) => setLastName(e.target.value)}
-                                value={lastName}
-                            />
-                            {
-                                <ErrorMessage
-                                    input={lastName}
-                                    checks={{ minLength: 1, maxLength: 20, dataType: 'string', noSpaces: true }}
-                                    show={touched.lastName}
-                                    sendError={() => handleError('isLastNameError')}
-                                    sendValid={() => handleValid('isLastNameError')}
+                            </div>
+                            <div className={modalStyles.inputControl}>
+                                <div>Last Name</div>
+                                <input
+                                    type='text'
+                                    name="lastname"
+                                    className={modalStyles.smallIn}
+                                    onClick={() => setTouched({ ...touched, lastName: true })}
+                                    onChange={(e) => setLastName(e.target.value)}
+                                    value={lastName}
                                 />
-                            }
+                                {
+                                    <ErrorMessage
+                                        input={lastName}
+                                        checks={{ minLength: 1, maxLength: 20, dataType: 'string', noSpaces: true }}
+                                        show={touched.lastName}
+                                        sendError={() => handleError('isLastNameError')}
+                                        sendValid={() => handleValid('isLastNameError')}
+                                    />
+                                }
+                            </div>
                         </div>
-                    </div>
-                    <div className={modalStyles.row}>
-                        <div className={modalStyles.inputControl}>
-                            <div>Email</div>
-                            <input
-                                type='text'
-                                name="email"
-                                className={modalStyles.smallIn}
-                                onClick={() => setTouched({ ...touched, email: true })}
-                                onChange={(e) => setEmail(e.target.value)}
-                                value={email}
-                            />
-                            {
-                                <ErrorMessage
-                                    input={email}
-                                    checks={{ email: true }}
-                                    show={touched.email}
-                                    sendError={() => handleError('isEmailError')}
-                                    sendValid={() => handleValid('isEmailError')}
+                        <div className={modalStyles.row}>
+                            <div className={modalStyles.inputControl}>
+                                <div>Email</div>
+                                <input
+                                    type='text'
+                                    name="email"
+                                    className={modalStyles.smallIn}
+                                    onClick={() => setTouched({ ...touched, email: true })}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    value={email}
                                 />
-                            }
-                        </div>
-                        <div className={modalStyles.inputControl}>
-                            <div>Phone Number</div>
-                            <input
-                                type='text'
-                                name="phonenumber"
-                                className={modalStyles.smallIn}
-                                onClick={() => setTouched({ ...touched, phone: true })}
-                                onChange={(e) => setPhone(e.target.value)}
-                                value={phone}
-                            />
-                            {
-                                <ErrorMessage
-                                    input={phone}
-                                    checks={{ phoneNumber: true }}
-                                    show={touched.phone}
-                                    sendError={() => handleError('isPhoneNumberError')}
-                                    sendValid={() => handleValid('isPhoneNumberError')}
+                                {
+                                    <ErrorMessage
+                                        input={email}
+                                        checks={{ email: true }}
+                                        show={touched.email}
+                                        sendError={() => handleError('isEmailError')}
+                                        sendValid={() => handleValid('isEmailError')}
+                                    />
+                                }
+                            </div>
+                            <div className={modalStyles.inputControl}>
+                                <div>Phone Number</div>
+                                <input
+                                    type='text'
+                                    name="phonenumber"
+                                    className={modalStyles.smallIn}
+                                    onClick={() => setTouched({ ...touched, phone: true })}
+                                    onChange={(e) => setPhone(e.target.value)}
+                                    value={phone}
                                 />
-                            }
+                                {
+                                    <ErrorMessage
+                                        input={phone}
+                                        checks={{ phoneNumber: true }}
+                                        show={touched.phone}
+                                        sendError={() => handleError('isPhoneNumberError')}
+                                        sendValid={() => handleValid('isPhoneNumberError')}
+                                    />
+                                }
+                            </div>
                         </div>
-                    </div>
-                    <div style={{ marginTop: '20px' }} className={modalStyles.row}>
-                        <div className={modalStyles.inputControl}>
-                            <div>Service Address</div>
-                            <input
-                                type='text'
-                                name="address"
-                                className={modalStyles.longIn}
-                                onClick={() => setTouched({ ...touched, address: true })}
-                                onChange={(e) => setAddress(e.target.value)}
-                                value={address}
-                            />
-                            {
-                                <ErrorMessage
-                                    input={address}
-                                    checks={{ address: true }}
-                                    show={touched.address}
-                                    sendError={() => handleError('isServiceAddressError')}
-                                    sendValid={() => handleValid('isServiceAddressError')}
+                        <div style={{ marginTop: '20px' }} className={modalStyles.row}>
+                            <div className={modalStyles.inputControl}>
+                                <div>Service Address</div>
+                                <input
+                                    type='text'
+                                    name="address"
+                                    className={modalStyles.longIn}
+                                    onClick={() => setTouched({ ...touched, address: true })}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                    value={address}
                                 />
-                            }
+                                {
+                                    <ErrorMessage
+                                        input={address}
+                                        checks={{ address: true }}
+                                        show={touched.address}
+                                        sendError={() => handleError('isServiceAddressError')}
+                                        sendValid={() => handleValid('isServiceAddressError')}
+                                    />
+                                }
+                            </div>
                         </div>
-                    </div>
-                    <div className={modalStyles.row}>
-                        <div className={modalStyles.inputControl}>
-                            <div>City</div>
-                            <input
-                                type='text'
-                                name="city"
-                                className={modalStyles.smallIn}
-                                onClick={() => setTouched({ ...touched, city: true })}
-                                onChange={(e) => setCity(e.target.value)}
-                                value={city}
-                            />
-                            {
-                                <ErrorMessage
-                                    input={city}
-                                    checks={{ dataType: 'string' }}
-                                    show={touched.city}
-                                    sendError={() => handleError('isCityError')}
-                                    sendValid={() => handleValid('isCityError')}
+                        <div className={modalStyles.row}>
+                            <div className={modalStyles.inputControl}>
+                                <div>City</div>
+                                <input
+                                    type='text'
+                                    name="city"
+                                    className={modalStyles.smallIn}
+                                    onClick={() => setTouched({ ...touched, city: true })}
+                                    onChange={(e) => setCity(e.target.value)}
+                                    value={city}
                                 />
-                            }
-                        </div>
-                        <div className={modalStyles.inputControl}>
-                            <div>State</div>
-                            <input
-                                type='text'
-                                name="state"
-                                className={modalStyles.smallerIn}
-                                onClick={() => setTouched({ ...touched, state: true })}
-                                onChange={(e) => set_State(e.target.value)}
-                                value={_state}
-                            />
-                            {
-                                <ErrorMessage
-                                    input={_state}
-                                    checks={{ dataType: 'string' }}
-                                    show={touched.state}
-                                    sendError={() => handleError('isStateError')}
-                                    sendValid={() => handleValid('isStateError')}
+                                {
+                                    <ErrorMessage
+                                        input={city}
+                                        checks={{ dataType: 'string' }}
+                                        show={touched.city}
+                                        sendError={() => handleError('isCityError')}
+                                        sendValid={() => handleValid('isCityError')}
+                                    />
+                                }
+                            </div>
+                            <div className={modalStyles.inputControl}>
+                                <div>State</div>
+                                <input
+                                    type='text'
+                                    name="state"
+                                    className={modalStyles.smallerIn}
+                                    onClick={() => setTouched({ ...touched, state: true })}
+                                    onChange={(e) => set_State(e.target.value)}
+                                    value={_state}
                                 />
-                            }
-                        </div>
-                        <div className={modalStyles.inputControl}>
-                            <div>Zip</div>
-                            <input
-                                type='text'
-                                name="zip"
-                                className={modalStyles.smallerIn}
-                                onClick={() => setTouched({ ...touched, zip: true })}
-                                onChange={(e) => setZip(e.target.value)}
-                                value={zip}
-                            />
-                            {
-                                <ErrorMessage
-                                    input={zip}
-                                    checks={{ zipCode: true }}
-                                    show={touched.zip}
-                                    sendError={() => handleError('isZipError')}
-                                    sendValid={() => handleValid('isZipError')}
+                                {
+                                    <ErrorMessage
+                                        input={_state}
+                                        checks={{ dataType: 'string' }}
+                                        show={touched.state}
+                                        sendError={() => handleError('isStateError')}
+                                        sendValid={() => handleValid('isStateError')}
+                                    />
+                                }
+                            </div>
+                            <div className={modalStyles.inputControl}>
+                                <div>Zip</div>
+                                <input
+                                    type='text'
+                                    name="zip"
+                                    className={modalStyles.smallerIn}
+                                    onClick={() => setTouched({ ...touched, zip: true })}
+                                    onChange={(e) => setZip(e.target.value)}
+                                    value={zip}
                                 />
-                            }
+                                {
+                                    <ErrorMessage
+                                        input={zip}
+                                        checks={{ zipCode: true }}
+                                        show={touched.zip}
+                                        sendError={() => handleError('isZipError')}
+                                        sendValid={() => handleValid('isZipError')}
+                                    />
+                                }
+                            </div>
                         </div>
-                    </div>
-                    <div className={modalStyles.detailsrow}>
-                        <div className={modalStyles.inputControl}>
-                            <div>Further Details</div>
-                            <textarea name="details" className={modalStyles.textarea} />
+                        <div className={modalStyles.detailsrow}>
+                            <div className={modalStyles.inputControl}>
+                                <div>Further Details</div>
+                                <textarea
+                                    name="details"
+                                    className={modalStyles.textarea}
+                                    value={details}
+                                    onChange={e => setDetails(e.target.value)}
+                                />
+                            </div>
                         </div>
-                    </div>
-                    <div className={modalStyles.row}>
+                        <div className={modalStyles.row} style={{ display: 'flex', flexDirection: 'column' }}>
+
+                            <button className={modalStyles.button}
+                                onClick={() => handleOnSubmit}
+                            >
+                                Send Request
+                            </button>
+                            <button className={modalStyles.smallbn}
+                                onClick={resetForm}
+                            >
+                                Clear All
+                            </button>
+                        </div>
+
+                    </form>
+                }
+                {
+                    !showForm &&
+                    <div style={{display:'flex', flexDirection:'column', alignItems: 'center', marginTop:'45%'}}>
+                        <p>Your Request Has Been Sent</p>
+
                         <button className={modalStyles.button}
-                            onClick={() => handleOnSubmit}
+                            onClick={(e) => { resetForm(e); setShowForm(true) }}
+                            style={{marginTop: '40px'}}
                         >
-                            Send Request
+                            Make Another Request
                         </button>
                     </div>
-
-                </form>
+                }
             </Modal>
         </div>
     )

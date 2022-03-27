@@ -1,3 +1,4 @@
+import { send } from "emailjs-com"
 import { useState } from "react"
 import styles from '../styles/ErrorMessage.module.css'
 
@@ -29,6 +30,14 @@ export default function ErrorMessage({ input, checks, show, sendError, sendValid
             return (
                 <div className={styles.error}>
                     Date has already passed
+                </div>
+            )
+        }
+        if(checks.dataType === 'date' && input == new Date()){
+            sendError()
+            return(
+                <div className={styles.error}>
+                    Must Select a Date
                 </div>
             )
         }
@@ -88,6 +97,7 @@ export default function ErrorMessage({ input, checks, show, sendError, sendValid
             )
         }
     }
+    
     else {
         sendValid()
         // setIsValid(true)
