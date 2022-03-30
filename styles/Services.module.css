@@ -58,8 +58,10 @@
         margin-top: 60vw;
     }
     .services{
-        padding-top: 0px;
-    }
+        padding-top: 70px;
+        /* border: 5px solid black; */
+        /* margin-top: 50px; */
+    }  
     .header{
         display: none;
     }
