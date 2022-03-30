@@ -15,6 +15,10 @@
     font-weight: bold;
 }
 
+.minDescription{
+    /* display: block; */
+}
+
 
 /* BREAKPOINTS FOR THE HEIGHT */
 @media only screen and (max-height: 500px){
@@ -36,6 +40,9 @@
     .descriptionContainer{
         margin-top: 100px;
     }
+    .showImages{
+        margin-bottom:25px
+    }
 }
 
 @media only screen and (min-height: 850px) {
@@ -48,13 +55,21 @@
 /* BREAKPOINTS FOR THE WIDTH */
 @media only screen and (max-width: 500px) {  
     .sideA{
-        margin-top: -60px;
+        margin-top: 60vw;
     }
     .services{
         padding-top: 0px;
     }
-    .description{
+    .header{
         display: none;
+    }
+    .description{
+        /* display: none; */
+        /* font-size: small;
+        text-align: left; */
+    }
+    .minDescription{
+        /* display: block; */
     }
     .descriptionContainer{
         margin-top: -10px;
@@ -93,6 +108,7 @@
         border: 4px solid yellow;
         margin-bottom: 20px;
     }
+    
     .descriptionContainer{
         background-color: #C4C4C4;
         padding: 1px 40px 20px 40px;
@@ -149,7 +165,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         /* margin-top: -75px; */
-        margin-bottom: -150px;
+        margin-bottom: 5px;
     }
     .descriptionContainer{
         background-color: #C4C4C4;
@@ -163,6 +179,10 @@
     .title{
         font-weight: bold;
         font-size: 34px;
+    }
+
+    .minDescription{
+        /* display: none; */
     }
     .mainButton{
         background-color: #FFEB01;

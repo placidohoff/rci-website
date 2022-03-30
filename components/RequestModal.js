@@ -6,6 +6,7 @@ import ErrorMessage from './ErrorMessage'
 import emailjs from 'emailjs-com'
 // import { SERVICE_ID, TEMPLATE_ID, USER_ID } from '../data/var'
 
+//NEEDS ENVIRONMENT VAR:
 const SERVICE_ID = "service_9vhzdop"
 const TEMPLATE_ID = "template_9q736er"
 const USER_ID = "FIkUrwvtra0xs9deO"
@@ -117,7 +118,7 @@ export default function RequestModal({ isOpen, closeModalFn, options, val }) {
                 state: _state,
                 zip: zip,
                 date: date,
-                details: details.trim() === '' ? '[ CUSTOMER DID NOT LEAVE EXTRA DETAILS ]' : details ,
+                details: details.trim() === '' ? '[ CUSTOMER LEFT NONE ]' : details ,
                 firstname: firstName,
                 lastname: lastName,
                 phone: phone.replace(/(\d{3})(\d{3})(\d{4})/,
