@@ -103,7 +103,6 @@ export default function Services() {
                         <div className={styles.carouselImage}><Image src={SERVICES[0].image} /></div>
                         <div className={styles.descriptionContainer}>
                             <p className={styles.title}>{SERVICES[0].service}</p>
-                            {/* <p className={styles.description}>{SERVICES[0].description}</p> */}
                             <p className={styles.description}>{SERVICES[0].minDescription}</p>
                             <p className={styles.mainButton} onClick={() => setIsModalOpen(true)}>Request Service</p>
                         </div>
@@ -112,7 +111,7 @@ export default function Services() {
                         <div className={styles.carouselImage}><Image src={SERVICES[1].image} /></div>
                         <div className={styles.descriptionContainer}>
                             <p className={styles.title}>{SERVICES[1].service}</p>
-                            <p className={styles.description}>{SERVICES[1].description}</p>
+                            <p className={styles.description}>{SERVICES[1].minDescription}</p>
                             <p className={styles.mainButton} onClick={() => setIsModalOpen(true)}>Request Service</p>
                         </div>
                     </div>
@@ -120,7 +119,7 @@ export default function Services() {
                         <div className={styles.carouselImage}><Image src={SERVICES[2].image} /></div>
                         <div className={styles.descriptionContainer}>
                             <p className={styles.title}>{SERVICES[2].service}</p>
-                            <p className={styles.description}>{SERVICES[2].description}</p>
+                            <p className={styles.description}>{SERVICES[2].minDescription}</p>
                             <p className={styles.mainButton} onClick={() => setIsModalOpen(true)}>Request Service</p>
                         </div>
                     </div>
@@ -128,7 +127,7 @@ export default function Services() {
                         <div className={styles.carouselImage}><Image src={SERVICES[3].image} /></div>
                         <div className={styles.descriptionContainer}>
                             <p className={styles.title}>{SERVICES[3].service}</p>
-                            <p className={styles.description}>{SERVICES[3].description}</p>
+                            <p className={styles.description}>{SERVICES[3].minDescription}</p>
                             <p className={styles.mainButton} onClick={() => setIsModalOpen(true)}>Request Service</p>
                         </div>
                     </div>
@@ -136,7 +135,7 @@ export default function Services() {
                         <div className={styles.carouselImage}><Image src={SERVICES[4].image} /></div>
                         <div className={styles.descriptionContainer}>
                             <p className={styles.title}>{SERVICES[4].service}</p>
-                            <p className={styles.description}>{SERVICES[4].description}</p>
+                            <p className={styles.description}>{SERVICES[4].minDescription}</p>
                             <p className={styles.mainButton} onClick={() => setIsModalOpen(true)}>Request Service</p>
                         </div>
                     </div>
@@ -144,7 +143,7 @@ export default function Services() {
                         <div className={styles.carouselImage}><Image src={SERVICES[5].image} /></div>
                         <div className={styles.descriptionContainer}>
                             <p className={styles.title}>{SERVICES[5].service}</p>
-                            <p className={styles.description}>{SERVICES[5].description}</p>
+                            <p className={styles.description}>{SERVICES[5].minDescription}</p>
                             <p className={styles.mainButton} onClick={() => setIsModalOpen(true)}>Request Service</p>
                         </div>
                     </div>
