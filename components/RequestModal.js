@@ -4,7 +4,7 @@ import modalStyles from '../styles/Modal.module.css'
 import Select from 'react-select'
 import ErrorMessage from './ErrorMessage'
 import emailjs from 'emailjs-com'
-import { SERVICE_ID, TEMPLATE_ID, USER_ID } from '../var'
+import { SERVICE_ID, TEMPLATE_ID, USER_ID } from './../var.js'
 // require('dotenv').config()
 // import fetch from 'node-fetch'
 
