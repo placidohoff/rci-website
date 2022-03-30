@@ -2,7 +2,7 @@
 // const mail = require('@sendgrid/mail')
 // const emailjs = require('@emailjs/browser')
 const emailjs = require('emailjs-com')
-import {SERVICE_ID, TEMPLATE_ID, USER_ID} from '../../var'
+// import {SERVICE_ID, TEMPLATE_ID, USER_ID} from '../../var'
 // import{ init } from '@emailjs/browser';
 // init("FIkUrwvtra0xs9deO");
 require('dotenv').config()
