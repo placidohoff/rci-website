@@ -1,3 +1,68 @@
+.drawer{
+    background-color: #0083D6;
+}
+
+.drawerBody{
+    width: 250px;
+    background-color: #0083D6;
+    height: 100%;
+}
+
+.drawerClose{
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px;
+    font-size: xx-large;
+    color: #fff;
+    font-weight: bold;
+}
+
+.drawerClose>p:hover{
+    cursor: pointer;
+    transform: scale(1.25);
+}
+
+.drawerClose:hover{
+    
+}
+
+.drawerNav{
+    /* padding-top: 35px; */
+}
+
+.drawerNav >div{
+    /* padding-top: 25px; */
+    padding: 15px;
+    color: white;
+    font-weight: bold;
+    
+}
+.drawerNav >div:hover{
+    padding: 15px;
+    color: blue;
+    cursor: pointer;
+    background-color: yellow;
+    
+}
+.link{
+    padding: 15px;
+}
+
+.link:hover{
+    background-color: yellow;
+    color: blue;
+    font-weight: bold;
+}
+.login{
+    padding: 15px;
+}
+
+.login:hover{
+    background-color: yellow;
+    color: blue;
+    font-weight: bold;
+}
+
 .nav{
     display: flex;
     flex-direction: row;
@@ -55,6 +120,7 @@
 .hamburger{
     display: none;
     cursor: pointer;
+    font-size: xx-large;
 }
 
 .image{
@@ -125,6 +191,8 @@
         padding: 5px;
         color: #0088DD;
         font-weight: bold;
+        display: flex;
+        align-items: center;
     }
 
 }
@@ -163,6 +231,7 @@
         align-items: center;
         justify-content: center;
     }
+    
     .nav{
         padding: 5px 50px 5px 50px;
     }

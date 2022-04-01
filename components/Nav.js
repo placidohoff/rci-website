@@ -1,13 +1,43 @@
+import { useState } from 'react'
 import navStyles from '../styles/Nav.module.css'
 import Link from 'next/link'
 import logo from '../assets/rci-logo.png'
 import Image from 'next/image'
 import { BsFillTelephoneFill } from 'react-icons/bs'
 import { GiHamburgerMenu } from 'react-icons/gi'
+import { AiOutlineCloseSquare } from 'react-icons/ai'
+import Drawer from '@material-ui/core/Drawer'
 
 export default function Nav() {
+
+    const [showDrawer, setShowDrawer] = useState(false)
+
+    const ShowDrawer = () => {
+        return (
+            <Drawer
+                anchor={'right'}
+                open={showDrawer}
+                onClose={e => setShowDrawer(false)}
+ 
+            >
+                <div className={navStyles.drawerBody}>
+                    <div className={navStyles.drawerClose}>{/*<p><Image className={navStyles.image} src={logo} alt='test' /></p>*/}<p><AiOutlineCloseSquare onClick={e => setShowDrawer(false)} /></p></div>
+                    <div className={navStyles.drawerNav}>
+                        <div>Get An Estimate</div>
+                        <Link href='/services'><div>Services</div></Link>
+                        <Link href='/services'><div>About Us</div></Link>
+                        <Link href='/services'><div>Contact</div></Link>
+                        <Link href='/services'><div>Log In</div></Link>
+                    </div>
+                </div>
+            </Drawer>
+        )
+    }
+
     return (
         <>
+
+            <ShowDrawer />
 
             <nav className={navStyles.nav}>
                 <div className={navStyles.left}>
@@ -15,13 +45,13 @@ export default function Nav() {
                         <Image className={navStyles.image} src={logo} alt='test' />
                     </Link>
                     <ul>
-                        <li>
-                            <Link href='/services'> Services </Link>
+                        <li className={navStyles.link}>
+                            <Link href='/services' >Services </Link>
                         </li>
-                        <li>
+                        <li className={navStyles.link}>
                             <Link href='/about'> About Us </Link>
                         </li>
-                        <li>
+                        <li className={navStyles.link}>
                             <Link href='/contact'> Contact </Link>
                         </li>
                         <li className={navStyles.estimateLink}>
@@ -40,7 +70,9 @@ export default function Nav() {
                     </div>
                     <div className={navStyles.login}><Link href='/' >Login</Link></div>
                     <div className={navStyles.hamburger}>
-                        <GiHamburgerMenu />
+                        <GiHamburgerMenu
+                            onClick={e => setShowDrawer(true)}
+                        />
                     </div>
                 </div>
             </nav>
