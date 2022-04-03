@@ -22,12 +22,14 @@ export default function Nav() {
             >
                 <div className={navStyles.drawerBody}>
                     <div className={navStyles.drawerClose}>{/*<p><Image className={navStyles.image} src={logo} alt='test' /></p>*/}<p><AiOutlineCloseSquare onClick={e => setShowDrawer(false)} /></p></div>
+                    <hr style={{marginTop: '-40px'}} />
                     <div className={navStyles.drawerNav}>
                         <div>Get An Estimate</div>
-                        <Link href='/services'><div>Services</div></Link>
-                        <Link href='/services'><div>About Us</div></Link>
-                        <Link href='/services'><div>Contact</div></Link>
-                        <Link href='/services'><div>Log In</div></Link>
+                        <Link href='/'><div onClick={e => setShowDrawer(false)}>Home</div></Link>
+                        <Link href='/services'><div onClick={e => setShowDrawer(false)}>Services</div></Link>
+                        {/* <Link href='/services'><div>About Us</div></Link> */}
+                        <Link href='/contact'><div onClick={e => setShowDrawer(false)}>Contact</div></Link>
+                        <Link href='/services'><div onClick={e => setShowDrawer(false)}>Log In</div></Link>
                     </div>
                 </div>
             </Drawer>
@@ -48,9 +50,9 @@ export default function Nav() {
                         <li className={navStyles.link}>
                             <Link href='/services' >Services </Link>
                         </li>
-                        <li className={navStyles.link}>
+                        {/* <li className={navStyles.link}>
                             <Link href='/about'> About Us </Link>
-                        </li>
+                        </li> */}
                         <li className={navStyles.link}>
                             <Link href='/contact'> Contact </Link>
                         </li>
