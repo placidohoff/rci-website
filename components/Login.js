@@ -51,7 +51,7 @@ const Login = ({ isOpen, closeModalFn }) => {
         e.preventDefault()
         try {
             // console.log(process.env.NEXT_PUBLIC_URL)
-            await axios.get('/api/employee',
+            await axios.get(process.env.NEXT_PUBLIC_URL+'/api/employee',
                 {
                     params:
                     {
@@ -84,8 +84,9 @@ const Login = ({ isOpen, closeModalFn }) => {
 
                 )
             router.push('/dashboard')
-        }catch{
+        }catch(e){
             alert('Error Logging In')
+            console.log(e)
         }
     }
 
