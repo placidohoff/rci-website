@@ -7,11 +7,15 @@ import { firestore } from '../firebase/clientApp';
 import bcrypt from 'bcryptjs';
 import { collection, QueryDocumentSnapshot, DocumentData, query, where, limit, getDocs } from "@firebase/firestore";
 import { useStateValue } from '../redux/StateProvider'
-import * as actionTypes from '../redux/actionTypes' 
+import * as actionTypes from '../redux/actionTypes'
+import axios from 'axios'
+import jwt from 'jsonwebtoken'
+
+
 
 
 export default function Login() {
-    const [{userFirstName}, dispatch] = useStateValue()
+    const [{ userFirstName }, dispatch] = useStateValue()
     const [name, setName] = useState('')
     const [pass, setPass] = useState('')
     const [savedHash, setSavedHash] = useState('')
@@ -21,6 +25,7 @@ export default function Login() {
     const [logInEmail, setLogInEmail] = useState('')
     const [logInPass, setLogInPass] = useState('')
     const [hashedPassed, setHashedPass] = useState('')
+    const [secretKey, setSecretKey] = useState(process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET)
 
 
     const Add = async (e) => {
@@ -41,21 +46,29 @@ export default function Login() {
     }
 
 
-    const AddToDatabase = async () => {
-        const timestamp = Date.now().toString()
-        const employees = doc(firestore, `employees/${signUpEmail}}`)
-        const employeeData = {
-            email: signUpEmail,
-            name: (signUpEmail.split('@'))[0],
-            password: hashedPassed
-        }
+    const AddToDatabase = async (e) => {
+        e.preventDefault()
+
+        //TODO: FRONT END REGEX CHECK FOR EMAIL BEFORE ENTER THE TRY/CATCH BLOCK
+
         try {
-            await setDoc(employees, employeeData)
-            alert('Yes')
-        } catch (error) {
-            console.log('BACK ERROR', error)
+            axios.post('/api/employee',
+                {
+                    email: signUpEmail,
+                    password: signUpPass
+                })
+                .then((response) => {
+                    console.log(response)
+                    alert('Created new user succesfully.')
+                    setSignUpEmail('')
+                    setSignUpPass('')
+                })
         }
 
+        catch (err) {
+            console.log('Error Front ', err)
+            alert('Error with creating new user.\nPerhaps this email is already in use')
+        }
 
     }
 
@@ -77,6 +90,42 @@ export default function Login() {
 
     }
 
+    const SignIn = async (e) => {
+        e.preventDefault()
+        axios.get('/api/employee',
+            {
+                params:
+                {
+                    email: logInEmail,
+                    password: logInPass
+                }
+            })
+            .then((response) => {
+                // console.log('FRONT END RES =>', response.data)
+                // const token = jwt.sign({ data: response.data }, secretKey, { expiresIn: 300000 })
+                
+                const token = jwt.sign(
+                    {
+                        name: response.data.name,
+                        isLoggedIn: true
+
+                    },
+                    secretKey,
+                    {
+                        expiresIn: 100
+                    }
+                )
+
+                localStorage.setItem(process.env.NEXT_PUBLIC_LOCAL_TOKEN_NAME, token)
+                // console.log(token)
+                dispatch({
+                    type: actionTypes.LOGIN,
+                    payload: response.data.name
+                })
+            })
+    }
+
+    //TODO: SEND TO BACKEND, RETRIEVE JWT SAVE AS LOCALSTORAGE
     const Check = async (e) => {
         const employeesCollection = collection(firestore, 'employees')
 
@@ -93,13 +142,14 @@ export default function Login() {
                 result.push(snapshot)
             })
 
-            
+
             console.log(result[0].data())
 
-           await bcrypt.compare(logInPass, result[0].data().password, (error, response) => {
+            await bcrypt.compare(logInPass, result[0].data().password, (error, response) => {
 
                 if (response) {
                     alert('MATCH ')
+                    generateAccessToken(result[0].data())
                     dispatch({
                         type: actionTypes.LOGIN,
                         payload: result[0].data().name
@@ -113,6 +163,10 @@ export default function Login() {
             alert('NONE')
         }
 
+
+    }
+
+    const generateAccessToken = (user) => {
 
     }
 
@@ -136,7 +190,7 @@ export default function Login() {
                 />
                 <br />
                 <button
-                    onClick={e => Add(e)}
+                    onClick={e => AddToDatabase(e)}
                 >
                     Add
 
@@ -160,7 +214,7 @@ export default function Login() {
             <br />
             <button
                 // onClick={e => Compare(e)}
-                onClick={e => Check(e)}
+                onClick={e => SignIn(e)}
             >
                 Check
             </button>
