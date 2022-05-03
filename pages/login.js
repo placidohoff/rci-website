@@ -11,7 +11,7 @@
 // import axios from 'axios'
 // import jwt from 'jsonwebtoken'
 
-export default () => {
+export default function Login(){
     return(
         <></>
     )
