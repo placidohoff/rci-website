@@ -26,7 +26,9 @@ export default function Dashboard() {
                         <title>RCI Dashboard</title>
                     </Head>
                     <div>
-                        <h1 style={{paddingTop: '20px'}}>DASHBOARD</h1>
+                        <h1 style={{ paddingTop: '20px' }}>
+                            DASHBOARD
+                        </h1>
                     </div>
                 </div>
             }
