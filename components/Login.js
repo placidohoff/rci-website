@@ -7,6 +7,7 @@ import axios from 'axios'
 import jwt from 'jsonwebtoken'
 import * as actionTypes from '../redux/actionTypes'
 
+
 const Login = ({ isOpen, closeModalFn }) => {
 
     const [{ isLoggedIn }, dispatch] = useStateValue()
@@ -49,6 +50,7 @@ const Login = ({ isOpen, closeModalFn }) => {
     const signIn = async (e) => {
         e.preventDefault()
         try {
+            // console.log(process.env.NEXT_PUBLIC_URL)
             await axios.get('/api/employee',
                 {
                     params:
