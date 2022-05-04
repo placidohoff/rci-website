@@ -86,7 +86,7 @@ const Login = ({ isOpen, closeModalFn }) => {
             router.push('/dashboard')
         }catch(e){
             alert('Error Logging In')
-            console.log(e)
+            console.error(e)
         }
     }
 
