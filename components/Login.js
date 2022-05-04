@@ -6,7 +6,9 @@ import loginStyles from '../styles/Login.module.css'
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
 import * as actionTypes from '../redux/actionTypes'
-
+import { firestore } from '../firebase/clientApp'
+import { collection, QueryDocumentSnapshot, DocumentData, query, where, limit, getDocs } from "@firebase/firestore";
+import bcrypt from 'bcryptjs/dist/bcrypt'
 
 const Login = ({ isOpen, closeModalFn }) => {
 
@@ -14,6 +16,13 @@ const Login = ({ isOpen, closeModalFn }) => {
     const [userEmail, setUserEmail] = useState('')
     const [password, setPassword] = useState('')
     const [secretKey, setSecretKey] = useState(process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET)
+    // const [employees, employeesLoading, employeesError] = useCollection(
+    //     firestore().collection('employees'), {}
+    // )
+
+    // if(!employeesLoading && employees){
+    //     employees.docs.map((employee) => console.log(employee.data()))
+    // }
 
     const router = useRouter()
 
@@ -51,7 +60,7 @@ const Login = ({ isOpen, closeModalFn }) => {
         e.preventDefault()
         try {
             // console.log(process.env.NEXT_PUBLIC_URL)
-            await axios.get(process.env.NEXT_PUBLIC_URL+'/api/employee',
+            await axios.get(process.env.NEXT_PUBLIC_URL + '/api/employee',
                 {
                     params:
                     {
@@ -84,10 +93,55 @@ const Login = ({ isOpen, closeModalFn }) => {
 
                 )
             router.push('/dashboard')
-        }catch(e){
+        } catch (e) {
             alert('Error Logging In')
             console.error(e)
         }
+    }
+
+    const Check = async (e) => {
+        e.preventDefault()
+        const employeesCollection = collection(firestore, 'employees')
+        try {
+            //FIND THE USER
+            const findUserQuery = await query(employeesCollection, where('email', '==', userEmail), limit(1))
+            const querySnapshot = await getDocs(findUserQuery)
+            const result = []
+
+            querySnapshot.forEach(snapshot => {
+                result.push(snapshot)
+            })
+
+            await bcrypt.compare(password, result[0].data().password, (error, response) => {
+                if (response) {
+                    const token = jwt.sign(
+                        {
+                            name: result[0].data().name,
+                            isLoggedIn: true
+
+                        },
+                        secretKey,
+                        {
+                            expiresIn: 100
+                        }
+                    )
+
+                    localStorage.setItem(process.env.NEXT_PUBLIC_LOCAL_TOKEN_NAME, token)
+                    dispatch({
+                        type: actionTypes.LOGIN,
+                        payload: result[0].data().name
+                    })
+                    closeModalFn()
+                } else {
+                    alert('Error with log in attempt. Please try again.')
+                    // console.log('NO MATCH ERROR ', anotherCheck, toCompare, savedHash)
+                }
+            })
+        } catch {
+            alert('Error with log-in attempt. Please try again.')
+        }
+
+
     }
 
 
@@ -129,7 +183,7 @@ const Login = ({ isOpen, closeModalFn }) => {
                     <div className={loginStyles.bnContain}>
                         <button
                             className={loginStyles.submit}
-                            onClick={e => signIn(e)}
+                            onClick={e => Check(e)}
                             type="submit"
                         >
                             Log In
