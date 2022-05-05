@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
+import dotenv from 'dotenv'
 
 
 const firebaseConfig = {
@@ -13,7 +14,11 @@ const firebaseConfig = {
     measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 }
 
-const app = initializeApp(firebaseConfig)
+try {
+    const app = initializeApp(firebaseConfig)
+} catch (err){
+    console.log("Firebase Error: Already Exist?")
+}
 
 const firestore = getFirestore()
 const auth = getAuth(app)
