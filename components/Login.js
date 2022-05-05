@@ -6,7 +6,7 @@ import loginStyles from '../styles/Login.module.css'
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
 import * as actionTypes from '../redux/actionTypes'
-import { firestore } from '../firebase/clientApp'
+import { firestore } from '../firebase/firebase'
 import { collection, QueryDocumentSnapshot, DocumentData, query, where, limit, getDocs } from "@firebase/firestore";
 import bcrypt from 'bcryptjs/dist/bcrypt'
 
