@@ -13,7 +13,11 @@ const firebaseConfig = {
     measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 }
 
-const app = initializeApp(firebaseConfig)
+try {
+    const app = initializeApp(firebaseConfig)
+} catch (err){
+    console.log("Firebase Error: Already Exist?")
+}
 // const db = app.firestore()
 
 const firestore = getFirestore()

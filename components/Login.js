@@ -11,7 +11,6 @@ import { collection, QueryDocumentSnapshot, DocumentData, query, where, limit, g
 import bcrypt from 'bcryptjs/dist/bcrypt'
 
 const Login = ({ isOpen, closeModalFn }) => {
-
     const [{ isLoggedIn }, dispatch] = useStateValue()
     const [userEmail, setUserEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -87,6 +86,7 @@ const Login = ({ isOpen, closeModalFn }) => {
                         type: actionTypes.LOGIN,
                         payload: response.data.name
                     })
+                    
                 })
                 .finally(
                     closeModalFn()
@@ -131,6 +131,7 @@ const Login = ({ isOpen, closeModalFn }) => {
                         type: actionTypes.LOGIN,
                         payload: result[0].data().name
                     })
+                    router.push('/dashboard')
                     closeModalFn()
                 } else {
                     alert('Error with log in attempt. Please try again.')
