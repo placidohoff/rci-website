@@ -2,7 +2,7 @@ import firebase from 'firebase/compat/app'
 import { initializeApp } from 'firebase/app'
 import { getFirestore, initializeFirestore } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
-import dotenv from 'dotenv'
+
 
 
 const firebaseConfig = {
