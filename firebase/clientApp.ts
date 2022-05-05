@@ -1,3 +1,4 @@
+import firebase from 'firebase/compat/app'
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
@@ -14,7 +15,7 @@ const firebaseConfig = {
     measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 }
 
-const app = initializeApp(firebaseConfig)
+const app = !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app()
 
 const firestore = getFirestore()
 const auth = getAuth(app)
