@@ -1,6 +1,6 @@
 import firebase from 'firebase/compat/app'
 import { initializeApp } from 'firebase/app'
-import { getFirestore } from 'firebase/firestore'
+import { getFirestore, initializeFirestore } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
 import dotenv from 'dotenv'
 
@@ -14,10 +14,16 @@ const firebaseConfig = {
     appId: `${process.env.NEXT_PUBLIC_FIREBASE_APP_ID}`,
     measurementId: `${process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID}`
 }
+const firestoreSettings = {
+    useFetchStreams: false, /* this might not be doing anything*/
+    experimentalAutoDetectLongPolling: true /* This line fixed my issue*/
+};
 
 const app = !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app()
 
-const firestore = getFirestore()
+// const firestore = getFirestore()
+const firestore = initializeFirestore(app, firestoreSettings)
+firestore.app.options
 const auth = getAuth(app)
 
 export { firestore, auth }
