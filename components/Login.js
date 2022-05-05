@@ -21,7 +21,7 @@ const Login = ({ isOpen, closeModalFn }) => {
 
     // if(!employeesLoading && employees){
     //     employees.docs.map((employee) => console.log(employee.data()))
-    // }
+    // }//TEST
 
     const router = useRouter()
 
