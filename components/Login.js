@@ -135,11 +135,13 @@ const Login = ({ isOpen, closeModalFn }) => {
                     closeModalFn()
                 } else {
                     alert('Error with log in attempt. Please try again.')
+                    console.log('BCRYPT ERROR')
                     // console.log('NO MATCH ERROR ', anotherCheck, toCompare, savedHash)
                 }
             })
         } catch {
             alert('Error with log-in attempt. Please try again.')
+            console.log('FINDUSERQUERY ERROR')
         }
 
 
