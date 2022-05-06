@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "firebase/firebase.ts", "pages/api/employee.js", "pages/api/employee.Js"  ],
+, "firebase/firebase.ts", "pages/api/employee.js", "pages/api/employee.Js", "firebase/clientApp.ts"  ],
   "exclude": [
     "node_modules"
   ]
