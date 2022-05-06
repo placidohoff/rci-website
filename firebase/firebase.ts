@@ -16,7 +16,7 @@ const firebaseConfig = {
 }
 const firestoreSettings = {
     useFetchStreams: false, /* this might not be doing anything*/
-    experimentalAutoDetectLongPolling: true, /* This line fixed my issue*/
+    // experimentalAutoDetectLongPolling: true, /* This line fixed my issue*/
     experimentalForceLongPolling: true
 };
 
