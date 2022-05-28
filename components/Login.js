@@ -112,6 +112,7 @@ const Login = ({ isOpen, closeModalFn }) => {
                 result.push(snapshot)
             })
 
+            //COMPARE THE PASSWORDS
             await bcrypt.compare(password, result[0].data().password, (error, response) => {
                 if (response) {
                     const token = jwt.sign(
