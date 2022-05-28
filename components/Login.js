@@ -6,15 +6,21 @@ import loginStyles from '../styles/Login.module.css'
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
 import * as actionTypes from '../redux/actionTypes'
-import { firestore } from '../firebase/firebase'
+import { firestore, auth } from '../firebase/firebase'
 import { collection, QueryDocumentSnapshot, DocumentData, query, where, limit, getDocs } from "@firebase/firestore";
 import bcrypt from 'bcryptjs/dist/bcrypt'
+import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
 
 const Login = ({ isOpen, closeModalFn }) => {
     const [{ isLoggedIn }, dispatch] = useStateValue()
     const [userEmail, setUserEmail] = useState('')
     const [password, setPassword] = useState('')
     const [secretKey, setSecretKey] = useState(process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET)
+    const [user, setUser] = useState({})
+
+    onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser)
+    })
     // const [employees, employeesLoading, employeesError] = useCollection(
     //     firestore().collection('employees'), {}
     // )
@@ -148,6 +154,25 @@ const Login = ({ isOpen, closeModalFn }) => {
 
     }
 
+    const FireLogin = async (e) => {
+        e.preventDefault()
+         try{
+            const usr = await signInWithEmailAndPassword(
+                auth,
+                userEmail,
+                password
+            )
+            // console.log(user)
+            console.log(user.email)
+
+            //NOW PROCEED TO CHECK THE FIRESTORE:
+            await Check(e)
+
+         }catch(error){
+             console.log(error.message)
+         }
+    }
+
 
 
     return (
@@ -187,7 +212,8 @@ const Login = ({ isOpen, closeModalFn }) => {
                     <div className={loginStyles.bnContain}>
                         <button
                             className={loginStyles.submit}
-                            onClick={e => Check(e)}
+                            // onClick={e => Check(e)}
+                            onClick={e => FireLogin(e)}
                             type="submit"
                         >
                             Log In
