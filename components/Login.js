@@ -16,7 +16,7 @@ const Login = ({ isOpen, closeModalFn }) => {
     const [userEmail, setUserEmail] = useState('')
     const [password, setPassword] = useState('')
     const [secretKey, setSecretKey] = useState(process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET)
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({});
 
     onAuthStateChanged(auth, (currentUser) => {
         setUser(currentUser)
