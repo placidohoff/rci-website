@@ -11,6 +11,10 @@ import NextCors from 'nextjs-cors'
 
 require('dotenv').config()
 const cors = require('cors')
+
+//DESCRIPTION: THIS IS THE API ENDPOINT FOR THE ADDING AND LOGIN OF EMPLOYEES. CURRENTLY NOT BEING USED HOWEVER, DECIDED TO DO THIS FUNCTIONALITY IN THE FRONTEND
+
+
 // import { ResultStorage } from "firebase-functions/v1/testLab";
 
 //initialize firebase to access its services:
