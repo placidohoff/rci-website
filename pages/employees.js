@@ -9,7 +9,7 @@ import { auth, db, firestore } from '../firebase/firebase'
 import { collection, doc, setDoc, addDoc } from 'firebase/firestore'
 import bcrypt from 'bcryptjs/dist/bcrypt'
 
-export default function employees() {
+export default function Employees() {
 
     const [{ userFirstName, isLoggedIn }, dispatch] = useStateValue()
     const router = useRouter()
