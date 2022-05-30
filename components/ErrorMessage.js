@@ -3,7 +3,7 @@ import { useState } from "react"
 import styles from '../styles/ErrorMessage.module.css'
 import { BsFillExclamationCircleFill } from "react-icons/bs"
 
-export default function ErrorMessage({ input, checks, show, sendError, sendValid, color = color? color :'blue', fontSize = fontSize? fontSize : 'small' }) {
+export default function ErrorMessage({ input, checks, show, sendError, sendValid, color = 'blue', fontSize = 'small' }) {
 
     // const [isValid, setIsValid] = useState(false)
 
