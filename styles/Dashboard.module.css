@@ -1,5 +1,8 @@
 .body{
     background-color: #0888DD;
-    margin-top: -2%;
+    /* margin-top: -3vh; */
     height: 100vh;
+    padding-top: 20px; 
+    display: 'flex'; 
+    border: '1px solid black';
 }

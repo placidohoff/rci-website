@@ -1,0 +1,50 @@
+.drawer{
+    background-color: #0083D6;
+}
+
+.drawerBody{
+    width: 250px;
+    background-color: #0083D6;
+    height: 100%;
+}
+
+.drawerClose{
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px;
+    font-size: xx-large;
+    color: #fff;
+    font-weight: bold;
+}
+
+.drawerClose>p:hover{
+    cursor: pointer;
+    transform: scale(1.25);
+}
+
+
+
+.drawerNav{
+    /* padding-top: 35px; */
+}
+
+.drawerNav >div{
+    /* padding-top: 25px; */
+    padding: 35px;
+    color: white;
+    font-weight: bold;
+    
+}
+.drawerNav >div:hover{
+    padding: 35px;
+    color: blue;
+    cursor: pointer;
+    background-color: yellow;
+    
+}
+
+.hamburger{
+    /* display: none; */
+    cursor: pointer;
+    font-size: xx-large;
+}
