@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+// import homeImage from '../assets/rci-home.png'
 import homeImage from '../assets/rci-home.png'
 import Link from 'next/link'
 

@@ -21,3 +21,7 @@ module.exports = {
 }
     After this, command firebase deploy --only hosting, and the correct pages are reachable. https://stackoverflow.com/questions/56284434/how-to-deploy-next-js-app-on-firebase-hosting
     HOWEVER: The images are not working on the page..
+
+    Images not showing on deployment Error Resolution:
+        The images are not loading because I told the next.config.js we are using loader: "imgix". This means I must upload my images to imgix which can connect to my google cloud bucket.
+        I created my bucket and to connect it to my imgix account, I must provide the 'Access Key', 'Secret Key', and 'Bucket Name'. To find my keys, click Storage>Settings>Interoperability, and scroll down to 'Access keys for your user account'

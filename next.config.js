@@ -2,7 +2,7 @@
 module.exports = {
   images: {
     loader: "imgix",
-    path: "https://noop/",
+    path: "https://cedo-code-solutions.imgix.net/"
   },
   reactStrictMode: true,
 }
