@@ -1,0 +1,43 @@
+.body{
+    /* height: 100vh; */
+    display: flex;
+    justify-content: space-between;
+}
+
+.main{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    height: fit-content;
+}
+
+.button{
+    background-color: #FFEB01;
+    color: #0070f3;
+    text-align: center;
+    width: 150px;
+    padding: 20px 10px 20px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: bold;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.jobItem{
+    border: 2px solid black; 
+    padding: 10px; 
+    border-radius: 15px; 
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.jobItem:hover{
+    transform: scale(1.01);
+}

@@ -6,7 +6,7 @@ import DashNav from '../components/DashNav'
 import ErrorMessage from '../components/ErrorMessage'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth, db, firestore } from '../firebase/firebase'
-import { collection, doc, setDoc, addDoc } from 'firebase/firestore'
+import { collection, doc, setDoc, addDoc, onSnapshot } from 'firebase/firestore'
 import bcrypt from 'bcryptjs/dist/bcrypt'
 
 export default function Employees() {
@@ -28,6 +28,32 @@ export default function Employees() {
         isPasswordError: true,
         isConfirmError: true
     }
+    const [listUsers, setListUsers] = useState([])
+
+
+    //VERIFY THE USER IS LOGGED IN:
+    useEffect( async() => {
+        !isLoggedIn
+            ? router.push('/')
+            : null
+
+        let users = []
+        await onSnapshot(collection(firestore, 'employees'), async (snapshot) => {
+            // setListUsers(snapshot.docs.map(doc => doc.data()))
+            // console.log(snapshot)
+
+            await snapshot.docs.forEach( async (entry) => {
+                await console.log(entry.data())
+                await users.push(entry.data())
+                // setListUsers([...listUsers, entry.data()])
+            })
+
+            console.log('list', users)
+            setListUsers(users)
+        })
+
+        
+    }, [])
 
     //I HAVE TWO HANDLERS CAUSE I CAN'T SEEM TO PASS THE BOOL WITH IT, ONLY THE NAME.. SO THE BOOL IS THE FUNCTION ITSELF:
     const handleError = (errorName, bool) => {
@@ -39,14 +65,6 @@ export default function Employees() {
         // setFormErrors({...formErrors, [errorName]:false})
         formErrors = ({ ...formErrors, [errorName]: false })
     }
-
-    //VERIFY THE USER IS LOGGED IN:
-    useEffect(() => {
-        isLoggedIn
-            ? router.push('/employees')
-            : router.push('/')
-        console.log('CHECK ', userFirstName)
-    }, [])
 
     const addUser = async (e) => {
         e.preventDefault()
@@ -77,18 +95,12 @@ export default function Employees() {
                                 .then(result => {
                                     alert('success')
                                 })
-                        }catch(e){
+                        } catch (e) {
                             console.log('ERROR SETDOC ', e)
                         }
 
-                    // const docRef = addDoc(collectionRef, {
-                    //     email: email,
-                    //     name: email.split('@')[0],
-                    //     password: hashedPass
-                    // })
-                    
 
-                }
+                    }
                 })
                 .catch((error) => {
                     console.log('Error creating user in firestore ', error)
@@ -100,9 +112,8 @@ export default function Employees() {
         }
     }
 
-    return (
-        <div className={empStyles.body}>
-            <DashNav />
+    const AddUserForm = () => {
+        return (
             <div>
                 <form className={empStyles.form} style={{}}>
                     <p style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>Add New User</p>
@@ -183,6 +194,48 @@ export default function Employees() {
                     </div>
                 </form>
             </div>
-        </div>
+        )
+    }
+
+    const ListOfUsers = () => {
+        return (
+            <div>
+                {
+
+                    listUsers.map(user => {
+                        return (
+                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                {/* {user} */}
+                                <ListItem 
+                                    user={user.email}
+                                />
+                                DELETE
+                            </div>
+                        )
+                    })
+
+
+                }
+
+            </div>
+        )
+    }
+
+    const ListItem = ({user}) => {
+        return(
+            <div style={{border: '1px solid black', padding:'5px', margin: '5px'}}>
+                {user}
+            </div>
+        )
+    }
+
+    return (
+        <div className={empStyles.body}>
+            <DashNav />
+            <div className={empStyles.main}>
+                {/* <AddUserForm /> */}
+                <ListOfUsers />
+            </div>
+        </div >
     )
 }

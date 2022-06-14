@@ -26,11 +26,17 @@ export default function Dashboard() {
                     <Head>
                         <title>RCI Dashboard</title>
                     </Head>
-                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems:'center'}}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <DashNav />
-                        <h1>
-                            DASHBOARD
-                        </h1>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            width: '100%'
+                        }}>
+                            <h1>
+                                Welcome {userFirstName}
+                            </h1>
+                        </div>
                     </div>
                 </div>
             }

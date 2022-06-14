@@ -124,7 +124,8 @@ const Login = ({ isOpen, closeModalFn }) => {
                     const token = jwt.sign(
                         {
                             name: result[0].data().name,
-                            isLoggedIn: true
+                            isLoggedIn: true,
+                            email: userEmail
 
                         },
                         secretKey,
@@ -136,7 +137,10 @@ const Login = ({ isOpen, closeModalFn }) => {
                     localStorage.setItem(process.env.NEXT_PUBLIC_LOCAL_TOKEN_NAME, token)
                     dispatch({
                         type: actionTypes.LOGIN,
-                        payload: result[0].data().name
+                        payload: {
+                            name: result[0].data().name,
+                            email: result[0].data().email
+                        }
                     })
                     router.push('/dashboard')
                     closeModalFn()

@@ -10,11 +10,15 @@ if (typeof window !== 'undefined') {
 
 let username = ''
 let isLoggedIn = false
+let email = null
+let loadedJobSite = {}
 
 jwt.verify(data, process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET, (err, decoded) => {
     if (decoded) {
         username = decoded.name
         isLoggedIn = decoded.isLoggedIn
+        email = decoded.email
+        loadedJobSite = {}
         console.log(decoded)
     } else {
         if (typeof window !== 'undefined') {
@@ -26,7 +30,9 @@ jwt.verify(data, process.env.NEXT_PUBLIC_ACCESS_TOKEN_SECRET, (err, decoded) => 
 
 export const initialState = {
     userFirstName: username,
-    isLoggedIn: isLoggedIn
+    isLoggedIn: isLoggedIn,
+    email: email,
+    loadedJobSite: {}
 }
 
 //JWT VERIFY THE LOCALSTORAGE DATA. IF SO, REASSIGN THE INITIAL STATE
@@ -35,14 +41,21 @@ const reducer = (state = initialState, action) => {
         case actionTypes.LOGIN:
             return {
                 ...state,
-                userFirstName: action.payload,
-                isLoggedIn: true
+                userFirstName: action.payload.name,
+                isLoggedIn: true,
+                email: action.payload.email
             }
         case actionTypes.LOGOUT:
             return{
                 ...state,
                 userFirstName: '',
-                isLoggedIn: false
+                isLoggedIn: false,
+                email: null
+            }
+        case actionTypes.LOADJOB:
+            return{
+                ...state,
+                loadedJobSite: action.payload.job
             }
     }
 }

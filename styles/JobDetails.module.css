@@ -1,0 +1,44 @@
+.smOnly{
+    display: none;
+}
+.mdOnly{
+    display: flex;
+    height: 20px;
+}
+
+.mdQty{
+    width: 15%;
+    border-right: 1px solid black;
+    display: flex;
+    justify-content: center;
+}
+
+.mdMaterial{
+    width: 50%;
+    border-right: 1px solid black;
+    display: flex;
+    justify-content: center;
+}
+
+.mdPrice{
+    width: 20%;
+    border-right: 1px solid black;
+    display: flex;
+    justify-content: center;
+}
+
+.mdAmount{
+    width: 25%;
+    /* border-right: 1px solid black; */
+    display: flex;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 480px){ 
+    .smOnly{
+        display: flex;
+    }
+    .mdOnly{
+        display: none;
+    }
+}

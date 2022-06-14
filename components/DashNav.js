@@ -23,9 +23,9 @@ export default function DashNav() {
                     <div className={navStyles.drawerNav}>
                         <Link href='/'><div onClick={e => setShowDrawer(false)}>Clock In</div></Link>
                         <Link href='/services'><div onClick={e => setShowDrawer(false)}>Time-Card</div></Link>
-                        <Link href='/contact'><div onClick={e => setShowDrawer(false)}>View Job-Sites</div></Link>
+                        <Link href='/jobsites'><div onClick={e => setShowDrawer(false)}>View Job-Sites</div></Link>
                         <Link href='/employees'><div onClick={e => setShowDrawer(false)}>View Employees</div></Link>
-                        
+
                     </div>
                 </div>
             </Drawer>
@@ -35,11 +35,21 @@ export default function DashNav() {
 
     return (
         <div>
-            <ShowDrawer />
-            <GiHamburgerMenu
-                className={navStyles.hamburger}
-                onClick={e => setShowDrawer(true)}
-            />
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center'
+                }}
+                
+            >
+                <p style={{ fontWeight: 'bold', marginBottom:'-1px' }}>Menu</p>
+                <ShowDrawer />
+                <GiHamburgerMenu
+                    className={navStyles.hamburger}
+                    onClick={e => setShowDrawer(true)}
+                />
+            </div>
         </div>
     )
 }

@@ -1,0 +1,95 @@
+.main{
+    width: 300px;
+    height: 200px;
+}
+
+.input{
+    height: 20px;
+    width: 80%;
+}
+
+.content{
+
+
+    left: 30%;
+
+
+    transform: translateY(-50%, -50%);
+    padding: 30px;
+    border-radius: 30px;
+    border: 5px solid yellow;
+    background-color: #C4C4C4;
+    font-weight: bold;
+    height: 600px;
+    width: 600px;
+    display: 'flex';
+    justify-self: 'center';
+}
+
+.labelControl{
+    width: 20%;
+    display: flex;
+    justify-content: flex-end;
+    font-size: small;
+}
+
+.inputControl{
+    
+    width: 80% ;
+    display: flex ;
+    justify-content: center ;
+    align-items: center ;
+}
+
+.rowControl{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.cityStateZipLabel{
+    /* width: 20%; */
+    /* margin-left: 10px; */
+    display: flex;
+    justify-content: flex-end;
+    font-size: small;
+}
+
+.smRowControl{
+    display: none;
+}
+
+.smStateZipControl{
+    display: flex;
+}
+
+@media only screen and (max-width: 480px){ 
+    .cityStateZipLabel{
+        /* width: 20%; */
+        /* margin-left: 10px; */
+        display: flex;
+        justify-content: flex-end;
+        font-size: small;
+        width: 20%;
+    }
+    .smStateZipControl{
+        display: none;
+
+    }
+    .smRowControl{
+        display: flex;
+        justify-content: space-between;
+        margin-left: 12px;
+    }
+
+    .smInputState{
+        margin-left: 5px;
+        width: 50px
+    }
+    .smInputZip{
+        margin-left: 5px;
+        width: 75px
+    }
+}
