@@ -42,14 +42,12 @@ export default function Jobsites() {
                 {
                     jobsList.map(site => {
                         return (
-                            <div>
-                                {
+                                
                                     <JobItem
                                         site={site}
                                         key={Math.random()}
                                     />
-                                }
-                            </div>
+                                
                         )
                     })
                 }
@@ -110,7 +108,9 @@ export default function Jobsites() {
 
             </div>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <ListJobs />
+                <ListJobs 
+                    key={Math.random()}
+                />
             </div>
         </div>
     )

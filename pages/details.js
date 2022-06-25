@@ -28,7 +28,10 @@ export default function Details() {
         return (
             listMaterials.map(material => {
                 return (
-                    <div style={{ display: 'flex', fontSize: 'x-small', fontWeight: 'bold', width: '100%', border: '1px solid black' }}>
+                    <div 
+                        key={Math.random()}
+                        style={{ display: 'flex', fontSize: 'x-small', fontWeight: 'bold', width: '100%', border: '1px solid black' }}
+                    >
                         <div className={`${stylesheet.mdOnly} ${stylesheet.mdQty}`}><input value={material.qty} style={{ width: '100%', border: 'none' }} type="text" /></div>
                         <div className={`${stylesheet.mdOnly} ${stylesheet.mdMaterial}`}><input value={material.material} style={{ width: '100%', border: 'none', fontSize: 'small' }} type="text" /></div>
                         <div className={`${stylesheet.mdOnly} ${stylesheet.mdPrice}`}><input value={material.price} style={{ width: '100%', border: 'none' }} type="text" /></div>
