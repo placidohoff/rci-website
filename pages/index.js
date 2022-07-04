@@ -18,7 +18,7 @@ export default function Home() {
         <p className={styles.subText}>Licensed Master Electrician For Work In:</p>
         <p className={styles.subText}>RI , MA , CT , NH</p>
         <Link href='/services'>
-          <div className={styles.buttonWrap}><p className={styles.mainButton}>See What We Can Do For You</p></div>
+          <div className={styles.buttonWrap}><p className={styles.mainButton}>See What We Can Do For You!</p></div>
         </Link>
       </div>
       <div className={styles.sideB}>

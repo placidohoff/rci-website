@@ -26,3 +26,6 @@ module.exports = {
         The images are not loading because I told the next.config.js we are using loader: "imgix". This means I must upload my images to imgix which can connect to my google cloud bucket.
         I created my bucket and to connect it to my imgix account, I must provide the 'Access Key', 'Secret Key', and 'Bucket Name'. To find my keys, click Storage>Settings>Interoperability, and scroll down to 'Access keys for your user account'
         -After connecting my code to my bucket, my website was still not loading the images because it could not find it. This is because when I ran npm run build, for some reason it would attach some numbers at the end of my .png files. These numbers were not random, and would be the same each time I ran a npm run build. Therefore, I renamed the filenames in my google bucket to match these new .png filenames and this worked in my website finding and presenting the images.
+
+***ViewJobSites***
+-Build command successful and firebase deploy successful but still getting old code when I visit the deployed site. Unable to reach the jobsites page, deployed site says that page doesn't exist. Must be pushing an old branch? 
